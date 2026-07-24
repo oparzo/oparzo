@@ -1,72 +1,49 @@
 import Link from "next/link";
-import Wordmark from "@/components/Wordmark";
 
 export default function Hero() {
   return (
-    <section className="bg-[var(--cream)]">
-      <div className="mx-auto grid min-h-[85vh] max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 sm:py-20 lg:min-h-screen lg:grid-cols-2 lg:gap-20 lg:px-8 lg:py-24">
-
-        {/* LEFT */}
-
-        <div className="max-w-2xl">
-
-          <p className="mb-5 text-[11px] uppercase tracking-[0.45em] text-gray-500 sm:mb-7">
+    <section className="relative bg-[#f7f5f0] overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <div className="max-w-3xl">
+          {/* Eyebrow */}
+          <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gray-500">
             PREMIUM CURATED LIFESTYLE
           </p>
 
-          <h1 className="font-serif text-4xl leading-[0.95] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-            Thoughtfully
-            <br />
-            Curated
-            <br />
-            Authenticity
+          {/* Heading */}
+          <h1 className="mt-3 sm:mt-4 font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-[var(--ink)]">
+            Thoughtfully Curated Authenticity
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-8 text-gray-600 sm:mt-8 sm:text-lg">
-            Authentic global products, thoughtfully curated,
-            delivered with a trusted concierge experience.
+          {/* Subheading */}
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl">
+            No more guessing if it's real. Authentic global brands, curated for Bangladesh.
           </p>
 
-          <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row">
-
+          {/* CTA Buttons */}
+          <div className="mt-6 sm:mt-8 flex flex-wrap gap-4">
             <Link
               href="/products"
-              className="w-full bg-[var(--gold)] px-8 py-4 text-center text-[11px] uppercase tracking-[0.3em] text-[var(--ink)] sm:w-auto"
+              className="inline-block bg-[var(--ink)] text-white px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition hover:bg-black/80"
             >
-              Explore Collection
+              EXPLORE COLLECTION
             </Link>
 
             <Link
-              href="/concierge"
-              className="w-full border border-[var(--ink)] px-8 py-4 text-center text-[11px] uppercase tracking-[0.3em] sm:w-auto"
+              href="/request-product"
+              className="inline-block border border-[var(--ink)] text-[var(--ink)] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition hover:bg-[var(--ink)] hover:text-white"
             >
-              Concierge
+              REQUEST PRODUCT
             </Link>
 
+            <Link
+              href="/bulk-orders"
+              className="inline-block border border-[var(--ink)] text-[var(--ink)] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition hover:bg-[var(--ink)] hover:text-white"
+            >
+              BULK ORDER
+            </Link>
           </div>
-
         </div>
-
-        {/* RIGHT */}
-
-        <div className="relative hidden h-[420px] items-center justify-center overflow-hidden bg-[var(--stone)] md:flex lg:h-[560px] xl:h-[650px]">
-
-          <div className="absolute inset-8 border border-black/10 lg:inset-10" />
-
-          <div className="relative z-10 text-center">
-
-            <div className="text-3xl lg:text-4xl">
-              <Wordmark />
-            </div>
-
-            <p className="mt-4 text-[11px] uppercase tracking-[0.45em] text-gray-500">
-              GLOBAL COLLECTION
-            </p>
-
-          </div>
-
-        </div>
-
       </div>
     </section>
   );

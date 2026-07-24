@@ -9,12 +9,16 @@ export async function POST(request: Request) {
       company_name: body.company_name,
       contact_person: body.contact_person,
       phone: body.phone,
+      whatsapp: body.whatsapp,
       email: body.email,
-
-      products: body.products,
-      quantity: body.quantity,
-      delivery_location: body.delivery_location,
-      message: body.message,
+      product_name: body.product_name,
+      brand: body.brand,
+      estimated_quantity: body.estimated_quantity,
+      product_link: body.product_link,
+      notes: body.notes,
+      full_delivery_address: body.full_delivery_address,
+      nearest_landmark: body.nearest_landmark,
+      postal_code: body.postal_code,
     });
 
     return NextResponse.json({
@@ -23,11 +27,10 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error(error);
-
     return NextResponse.json(
       {
         success: false,
-        message: "Bulk order submission failed.",
+        message: error.message || "Bulk order submission failed.",
       },
       {
         status: 500,

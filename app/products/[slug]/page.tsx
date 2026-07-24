@@ -1,5 +1,6 @@
 import ProductView from "@/components/ProductView";
 import RelatedProducts from "@/components/RelatedProducts";
+import ProductReviews from "@/components/ProductReviews";
 
 import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
@@ -36,13 +37,12 @@ export default async function ProductPage({
 
   return (
     <main className="max-w-7xl mx-auto px-6">
-
       <ProductView product={product} />
 
-      <RelatedProducts
-        products={relatedProducts}
-      />
+      {/* Product Reviews */}
+      <ProductReviews productSlug={slug} />
 
+      <RelatedProducts products={relatedProducts} />
     </main>
   );
 }

@@ -312,6 +312,20 @@ export default function CheckoutPage() {
                 className="mt-1 w-full rounded-lg border p-3"
               />
             </div>
+
+            {/* New: Save address checkbox */}
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="saveAddress"
+                checked={saveNewAddress}
+                onChange={(e) => setSaveNewAddress(e.target.checked)}
+                className="h-5 w-5 accent-[var(--gold)]"
+              />
+              <label htmlFor="saveAddress" className="text-sm text-gray-600">
+                Save this address for future orders
+              </label>
+            </div>
           </div>
 
           <div className="rounded-xl border p-5">

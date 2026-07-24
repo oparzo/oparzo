@@ -1,53 +1,53 @@
 import ProductCard from "@/components/ProductCard";
 
-interface Props {
+interface FeaturedProductsProps {
   products: any[];
-  title?: string;
-  subtitle?: string;
   filter?: "featured" | "newArrival" | "bestseller";
-  limit?: number;
+  title: string;
+  subtitle: string;
 }
 
 export default function FeaturedProducts({
   products,
-  title = "Featured Collection",
-  subtitle = "Curated Selection",
-  filter = "featured",
-  limit = 8,
-}: Props) {
-  const filteredProducts =
-    products?.filter((product) => product?.[filter]).slice(0, limit) || [];
+  filter,
+  title,
+  subtitle,
+}: FeaturedProductsProps) {
+  // Filter products based on the filter prop
+  let filteredProducts = products;
 
-  if (!filteredProducts.length) return null;
+  if (filter === "featured") {
+    filteredProducts = products.filter((p) => p.featured === true);
+  } else if (filter === "newArrival") {
+    filteredProducts = products.filter((p) => p.newArrival === true);
+  } else if (filter === "bestseller") {
+    filteredProducts = products.filter((p) => p.bestseller === true);
+  }
+
+  // If no products match the filter, don't render the section
+  if (filteredProducts.length === 0) {
+    return null;
+  }
 
   return (
-    <section className="bg-[#f7f5ef] py-14 md:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-
-        <div className="mb-10 md:mb-14">
-          <p className="mb-4 text-[11px] uppercase tracking-[0.4em] text-gray-500">
+    <section className="py-12 sm:py-16 lg:py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-8 sm:mb-12">
+          <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gray-500">
             {subtitle}
           </p>
-
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-7xl leading-tight">
+          <h2 className="mt-1 font-serif text-2xl sm:text-3xl lg:text-4xl text-[var(--ink)]">
             {title}
           </h2>
-
-          <p className="mt-5 max-w-2xl text-sm sm:text-base text-gray-600 leading-7">
-            Explore our handpicked selection of premium products from trusted
-            global brands.
-          </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-            />
+        {/* Product Grid - Responsive: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filteredProducts.map((product: any) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
-
       </div>
     </section>
   );
