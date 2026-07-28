@@ -2,83 +2,86 @@
 
 import { useState } from "react";
 
-export default function NewsletterForm() {
+interface NewsletterFormProps {
+  slim?: boolean;
+}
+
+export default function NewsletterForm({ slim }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
-  const [error, setError] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setStatus("loading");
-    setError("");
+    setMessage("");
 
     try {
       const res = await fetch("/api/newsletter", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-
       const data = await res.json();
-
       if (data.success) {
         setStatus("success");
+        setMessage("Thanks for subscribing!");
         setEmail("");
       } else {
         setStatus("error");
-        setError(data.error ?? "Something went wrong.");
+        setMessage(data.message || "Something went wrong.");
       }
     } catch {
       setStatus("error");
-      setError("Something went wrong.");
+      setMessage("Failed to subscribe. Please try again.");
     }
-  }
+  };
 
-  if (status === "success") {
+  if (slim) {
     return (
-      <p className="text-sm leading-7 text-[#d6d0c7]">
-        You're on the list. Welcome to OPARZO.
-      </p>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-
-      <div className="flex overflow-hidden border border-[#3a3a3a] bg-transparent">
-
+      <form onSubmit={handleSubmit} className="flex items-center gap-1">
         <input
           type="email"
-          required
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Your email"
-          className="w-full bg-transparent px-5 py-4 text-sm text-white placeholder:text-gray-500 outline-none"
+          required
+          className="flex-1 min-w-0 bg-white/10 border border-white/10 rounded px-2 py-1 text-xs text-white placeholder-white/40 focus:outline-none focus:border-white/30"
         />
-
         <button
           type="submit"
           disabled={status === "loading"}
-          className="border-l border-[#3a3a3a] px-6 text-[11px] uppercase tracking-[0.3em] transition hover:bg-[var(--gold)] hover:text-black"
+          className="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-xs font-medium transition disabled:opacity-50"
         >
-          {status === "loading"
-            ? "Joining..."
-            : "Join"}
+          {status === "loading" ? "..." : "Join"}
         </button>
+      </form>
+    );
+  }
 
-      </div>
-
-      {status === "error" && (
-        <p className="text-sm text-red-400">
-          {error}
+  // Full version (existing)
+  return (
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <input
+        type="email"
+        placeholder="Your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        className="w-full border border-white/20 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/50"
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="w-full bg-white/10 hover:bg-white/20 text-white py-3 text-sm font-medium transition disabled:opacity-50"
+      >
+        {status === "loading" ? "Subscribing..." : "JOIN"}
+      </button>
+      {message && (
+        <p className={`text-xs ${status === "success" ? "text-green-400" : "text-red-400"}`}>
+          {message}
         </p>
       )}
-
     </form>
   );
 }

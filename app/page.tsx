@@ -5,8 +5,8 @@ import {
 } from "@/sanity/lib/queries";
 import Hero from "@/components/Hero";
 import Categories from "@/components/Categories";
-import FeaturedProducts from "@/components/FeaturedProducts";
 import BrandShowcase from "@/components/BrandShowcase";
+import FeaturedProducts from "@/components/FeaturedProducts";
 import WhyShop from "@/components/WhyShop";
 import CustomerReviews from "@/components/CustomerReviews";
 
@@ -25,6 +25,7 @@ export default async function Home() {
     <main>
       <Hero />
       <Categories categories={categories} />
+      <BrandShowcase brands={brands} />
       <FeaturedProducts
         products={products}
         filter="newArrival"
@@ -43,7 +44,6 @@ export default async function Home() {
         title="Best Sellers"
         subtitle="Customer Favorites"
       />
-      <BrandShowcase brands={brands} />
       <WhyShop />
       <CustomerReviews />
     </main>

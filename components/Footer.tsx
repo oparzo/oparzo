@@ -6,130 +6,98 @@ import Wordmark from "@/components/Wordmark";
 export default async function Footer() {
   const settings = await getSiteSettings();
 
-  const hasContactInfo =
-    settings.contact_email ||
-    settings.contact_phone ||
-    settings.whatsapp_number ||
-    settings.instagram_url ||
-    settings.facebook_url;
-
   return (
-    <footer className="bg-[var(--ink)] py-24 text-white">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid gap-14 lg:grid-cols-5">
-          {/* Brand */}
+    <footer className="bg-[var(--ink)] py-8 text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {/* 4-column grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
+
+          {/* Column 1: Brand + Contact + Social */}
           <div>
-            <Wordmark className="text-[2.3rem]" />
-            <p className="mt-6 max-w-xs leading-8 text-white/65">
-              Authentic. Verified. Yours. — Global brands, curated for Bangladesh.
+            <Wordmark className="text-[1.4rem] sm:text-[1.8rem]" />
+            <p className="mt-1 text-[10px] sm:text-xs leading-4 text-white/60">
+              Authentic. Verified. Yours.
             </p>
-            {hasContactInfo && (
-              <div className="mt-8 space-y-3 text-sm text-white/60">
-                {settings.contact_email && (
-                  <a href={`mailto:${settings.contact_email}`} className="block hover:text-white">
-                    {settings.contact_email}
-                  </a>
-                )}
-                {settings.contact_phone && (
-                  <a href={`tel:${settings.contact_phone}`} className="block hover:text-white">
-                    {settings.contact_phone}
-                  </a>
-                )}
-                {settings.whatsapp_number && (
-                  <a
-                    href={`https://wa.me/${settings.whatsapp_number.replace(/[^0-9]/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block hover:text-white"
-                  >
-                    WhatsApp
-                  </a>
-                )}
-                <div className="flex gap-5 pt-2">
-                  {settings.instagram_url && (
-                    <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                      Instagram
-                    </a>
-                  )}
-                  {settings.facebook_url && (
-                    <a href={settings.facebook_url} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                      Facebook
-                    </a>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* EXPLORE - vertical layout */}
-          <div>
-            <h3 className="mb-6 text-[11px] uppercase tracking-[0.35em] text-white/50">Explore</h3>
-            <div className="flex flex-col space-y-3">
-              <Link href="/products" className="text-white/70 hover:text-white transition">
-                Products
-              </Link>
-              <Link href="/categories" className="text-white/70 hover:text-white transition">
-                Categories
-              </Link>
-              <Link href="/brands" className="text-white/70 hover:text-white transition">
-                Brands
-              </Link>
-              <Link href="/about" className="text-white/70 hover:text-white transition">
-                About
-              </Link>
+            {/* Contact */}
+            <div className="mt-3 space-y-1 text-[10px] sm:text-xs text-white/50">
+              {settings.contact_email && (
+                <a href={`mailto:${settings.contact_email}`} className="block hover:text-white truncate">
+                  ✉ {settings.contact_email}
+                </a>
+              )}
+              {settings.contact_phone && (
+                <a href={`tel:${settings.contact_phone}`} className="block hover:text-white">
+                  📞 {settings.contact_phone}
+                </a>
+              )}
+              {settings.whatsapp_number && (
+                <a
+                  href={`https://wa.me/${settings.whatsapp_number.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block hover:text-white"
+                >
+                  💬 WhatsApp
+                </a>
+              )}
+            </div>
+            {/* Social Links */}
+            <div className="mt-2 flex gap-3">
+              {settings.instagram_url && (
+                <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-xs transition">
+                  📸 Instagram
+                </a>
+              )}
+              {settings.facebook_url && (
+                <a href={settings.facebook_url} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-xs transition">
+                  👍 Facebook
+                </a>
+              )}
             </div>
           </div>
 
-          {/* CUSTOMER - vertical layout */}
+          {/* Column 2: Explore */}
           <div>
-            <h3 className="mb-6 text-[11px] uppercase tracking-[0.35em] text-white/50">Customer</h3>
-            <div className="flex flex-col space-y-3">
-              <Link href="/account" className="text-white/70 hover:text-white transition">
-                My Account
-              </Link>
-              <Link href="/track-order" className="text-white/70 hover:text-white transition">
-                Track Order
-              </Link>
+            <h3 className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/40">Explore</h3>
+            <ul className="space-y-1.5 text-[10px] sm:text-xs">
+              <li><Link href="/products" className="text-white/60 hover:text-white transition">Products</Link></li>
+              <li><Link href="/categories" className="text-white/60 hover:text-white transition">Categories</Link></li>
+              <li><Link href="/brands" className="text-white/60 hover:text-white transition">Brands</Link></li>
+              <li><Link href="/about" className="text-white/60 hover:text-white transition">About</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Customer (শুধু My Account + Track Order) */}
+          <div>
+            <h3 className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/40">Customer</h3>
+            <ul className="space-y-1.5 text-[10px] sm:text-xs">
+              <li><Link href="/account" className="text-white/60 hover:text-white transition">My Account</Link></li>
+              <li><Link href="/track-order" className="text-white/60 hover:text-white transition">Track Order</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Policies + Slim Newsletter */}
+          <div>
+            <h3 className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/40">Policies</h3>
+            <ul className="space-y-1.5 text-[10px] sm:text-xs">
+              <li><Link href="/shipping-policy" className="text-white/60 hover:text-white transition">Shipping</Link></li>
+              <li><Link href="/return-refund-policy" className="text-white/60 hover:text-white transition">Returns</Link></li>
+              <li><Link href="/terms" className="text-white/60 hover:text-white transition">Terms</Link></li>
+              <li><Link href="/privacy" className="text-white/60 hover:text-white transition">Privacy</Link></li>
+            </ul>
+            <div className="mt-3">
+              <h3 className="mb-1 text-[9px] uppercase tracking-[0.2em] text-white/40">Newsletter</h3>
+              <NewsletterForm slim />
             </div>
           </div>
 
-          {/* POLICIES - vertical layout */}
-          <div>
-            <h3 className="mb-6 text-[11px] uppercase tracking-[0.35em] text-white/50">Policies</h3>
-            <div className="flex flex-col space-y-3">
-              <Link href="/shipping-policy" className="text-white/70 hover:text-white transition">
-                Shipping Policy
-              </Link>
-              <Link href="/return-refund-policy" className="text-white/70 hover:text-white transition">
-                Return &amp; Refund Policy
-              </Link>
-              <Link href="/terms" className="text-white/70 hover:text-white transition">
-                Terms &amp; Conditions
-              </Link>
-              <Link href="/privacy" className="text-white/70 hover:text-white transition">
-                Privacy Policy
-              </Link>
-            </div>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="mb-6 text-[11px] uppercase tracking-[0.35em] text-white/50">Newsletter</h3>
-            <p className="mb-6 leading-7 text-white/60">
-              Receive curated launches and exclusive updates.
-            </p>
-            <NewsletterForm />
-          </div>
         </div>
 
-        {/* Signature Hook & Copyright */}
-        <div className="mt-16 border-t border-white/10 pt-8 text-sm text-white/45">
-          <p className="text-center text-[11px] uppercase tracking-[0.35em]">
-            "Bangladesh deserves the real thing."
-          </p>
-          <p className="mt-4 text-center">
-            © {new Date().getFullYear()} OPARZO. All rights reserved.
-          </p>
+        {/* Footer bottom */}
+        <div className="mt-6 border-t border-white/10 pt-4 text-[9px] text-white/40 text-center">
+          <p className="uppercase tracking-[0.2em]">"Bangladesh deserves the real thing."</p>
+          <p className="mt-1">© {new Date().getFullYear()} OPARZO. All rights reserved.</p>
         </div>
       </div>
     </footer>

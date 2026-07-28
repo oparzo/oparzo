@@ -1,67 +1,38 @@
-import {defineField, defineType} from "sanity";
-
-
-export default defineType({
-
-  name: "category",
-
-  title: "Category",
-
-  type: "document",
-
-
+export default {
+  name: 'category',
+  title: 'Category',
+  type: 'document',
   fields: [
-
-    defineField({
-      name: "name",
-      title: "Category Name",
-      type: "string",
-    }),
-
-
-    defineField({
-      name: "slug",
-      title: "Slug",
-      type: "slug",
+    {
+      name: 'name',
+      title: 'Name',
+      type: 'string',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
       options: {
-        source: "name",
+        source: 'name',
+        maxLength: 96,
       },
-    }),
-
-
-    defineField({
-      name: "description",
-      title: "Category Description",
-      type: "text",
-    }),
-
-
-    defineField({
-      name: "image",
-      title: "Category Image",
-      type: "image",
-    }),
-
-
-    defineField({
-      name: "parent",
-      title: "Parent Category",
-      type: "reference",
-      to: [
-        {
-          type: "category",
-        },
-      ],
-    }),
-
-
-    defineField({
-      name: "featured",
-      title: "Featured Category",
-      type: "boolean",
-      initialValue: false,
-    }),
-
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      description: 'Upload a cover image for this category (shown on homepage)',
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      description: 'Short description of the category',
+    },
   ],
-
-});
+};

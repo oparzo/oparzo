@@ -1,183 +1,141 @@
 @import "tailwindcss";
 
 @theme {
-  /* Typography */
   --font-serif: var(--font-display), Georgia, serif;
   --font-sans: var(--font-body), Arial, Helvetica, sans-serif;
-
-  /* Border radius — unified to one editorial, barely-rounded */
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 4px;
   --radius-xl: 4px;
   --radius-2xl: 4px;
-
-  /* Color tokens mapped into Tailwind utilities */
   --color-ink:     #161513;
   --color-cream:   #FAF8F3;
   --color-stone:   #F1EEE7;
   --color-gold:    #AD8A45;
 }
 
-/* ── Global design tokens ─────────────────────────────── */
 :root {
-  /* Palette — three roles, strict discipline */
-  --ink:    #161513;   /* primary text, primary buttons */
-  --cream:  #FAF8F3;   /* primary background */
-  --stone:  #F1EEE7;   /* alternating sections only */
-  --gold:   #AD8A45;   /* wordmark, price emphasis, focus */
-
-  /* Legacy aliases kept so nothing breaks overnight;
-     migrate call-sites to --ink / --cream / --stone over time */
+  --ink:    #161513;
+  --cream:  #FAF8F3;
+  --stone:  #F1EEE7;
+  --gold:   #AD8A45;
   --background: #FAF8F3;
   --foreground: #161513;
 
-  /* Spacing scale (8px base) */
-  --space-1:  8px;
-  --space-2:  16px;
-  --space-3:  24px;
-  --space-4:  32px;
-  --space-5:  40px;
-  --space-6:  48px;
-  --space-8:  64px;
-  --space-10: 80px;
-  --space-12: 96px;
-  --space-16: 128px;
-  --space-20: 160px;
+  /* ফন্ট সাইজ – ১০% ছোট করা হলো */
+  --fs-body:   clamp(0.85rem, 0.82rem + 0.1vw, 0.9rem);
+  --fs-h1:     clamp(1.6rem, 1.1rem + 2.4vw, 2.5rem);
+  --fs-h2:     clamp(1.25rem, 0.95rem + 1.5vw, 1.8rem);
+  --fs-h3:     clamp(0.9rem, 0.8rem + 0.55vw, 1.1rem);
+  --fs-price:  clamp(0.95rem, 0.8rem + 0.7vw, 1.2rem);
+  --fs-button: clamp(0.78rem, 0.75rem + 0.1vw, 0.85rem);
+  --fs-small:  clamp(0.68rem, 0.65rem + 0.1vw, 0.75rem);
+  --fs-tiny:   clamp(0.58rem, 0.55rem + 0.1vw, 0.65rem);
+
+  --space-1:  6px;
+  --space-2:  12px;
+  --space-3:  18px;
+  --space-4:  24px;
+  --space-5:  32px;
+  --space-6:  40px;
+  --space-8:  48px;
+  --space-10: 60px;
+  --space-12: 72px;
+  --space-16: 96px;
+  --space-20: 120px;
 }
 
-/* ── Base resets ──────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   background: var(--cream);
   color: var(--ink);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-size: var(--fs-body);
   -webkit-font-smoothing: antialiased;
 }
-
 h1, h2, h3, h4 {
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 400;
 }
+img { display: block; }
+button { cursor: pointer; }
+a { transition: color 0.25s ease; }
 
-img {
-  display: block;
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  transition: color 0.25s ease;
-}
-
-/* ── Focus ring — gold, keyboard-only ─────────────────── */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
+:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
-/* ── Layout utilities ─────────────────────────────────── */
-
-/* Section: 120–160px desktop, 64–80px mobile */
 .section-padding {
-  padding-top:    var(--space-10);   /* 80px mobile */
+  padding-top:    var(--space-10);
   padding-bottom: var(--space-10);
 }
-
 @media (min-width: 1024px) {
   .section-padding {
-    padding-top:    var(--space-16);  /* 128px desktop */
-    padding-bottom: var(--space-16);
+    padding-top:    var(--space-12);
+    padding-bottom: var(--space-12);
   }
 }
 
-/* Container: 1280px max, 24px mobile / 48px desktop sides */
 .container-oparzo {
   max-width: 1280px;
-  margin-left:  auto;
+  margin-left: auto;
   margin-right: auto;
-  padding-left:  var(--space-3);   /* 24px */
+  padding-left:  var(--space-3);
   padding-right: var(--space-3);
 }
-
 @media (min-width: 1024px) {
   .container-oparzo {
-    padding-left:  var(--space-6);  /* 48px */
+    padding-left:  var(--space-6);
     padding-right: var(--space-6);
   }
 }
 
-/* Legacy .container kept for backward compat */
 .container {
   max-width: 1280px;
   margin: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
-
 .section {
-  padding-top:    128px;
-  padding-bottom: 128px;
+  padding-top:    96px;
+  padding-bottom: 96px;
 }
 
-/* ── Primary button — ink fill, cream text ────────────── */
 .btn-primary {
-  display:         inline-flex;
-  align-items:     center;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  background:      var(--gold);
-  color:           var(--ink);
-  padding:         16px 40px;
-  font-family:     var(--font-sans), sans-serif;
-  font-size:       11px;
-  font-weight:     500;
-  letter-spacing:  0.3em;
-  text-transform:  uppercase;
-  border:          none;
-  cursor:          pointer;
-  transition:      opacity 0.25s ease;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 12px 32px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: var(--fs-button);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  border: none;
+  transition: opacity 0.25s ease;
 }
+.btn-primary:hover  { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.btn-primary:hover {
-  opacity: 0.85;
-}
-
-.btn-primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Secondary / outlined */
 .btn-secondary {
-  display:         inline-flex;
-  align-items:     center;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  background:      transparent;
-  color:           var(--ink);
-  padding:         15px 40px;
-  font-family:     var(--font-sans), sans-serif;
-  font-size:       11px;
-  font-weight:     500;
-  letter-spacing:  0.3em;
-  text-transform:  uppercase;
-  border:          1px solid var(--ink);
-  cursor:          pointer;
-  transition:      background 0.25s ease, color 0.25s ease;
+  background: transparent;
+  color: var(--ink);
+  padding: 11px 32px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: var(--fs-button);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink);
+  transition: background 0.25s ease, color 0.25s ease;
 }
-
 .btn-secondary:hover {
   background: var(--ink);
   color: var(--cream);
