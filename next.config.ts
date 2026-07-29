@@ -8,14 +8,13 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
       },
     ],
-    // sharp নেটিভ মডিউল এড়াতে
+    // Android-এ sharp সাপোর্টেড না, তাই unoptimized চালু
     unoptimized: true,
   },
-  // TypeScript এরর ইগনোর করুন (শুধু বিল্ডের জন্য)
+  // লোকাল বিল্ডের জন্য TypeScript ও ESLint চেক অফ (শুধু টেস্টের জন্য)
   typescript: {
     ignoreBuildErrors: true,
   },
-  // ESLint ইগনোর (যদি থাকে)
   eslint: {
     ignoreDuringBuilds: true,
   },

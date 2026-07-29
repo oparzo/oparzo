@@ -43,7 +43,7 @@ export default async function sitemap() {
     },
   ];
 
-  // Dynamic product pages
+  // Dynamic product pages – শুধু স্লাগ-ওয়ালা
   const products = await client.fetch(`
     *[_type == "product"]{
       slug,
@@ -51,14 +51,16 @@ export default async function sitemap() {
     }
   `);
 
-  const productPages = products.map((product: any) => ({
-    url: `${baseUrl}/products/${product.slug.current}`,
-    lastModified: new Date(product._updatedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
+  const productPages = products
+    .filter((product: any) => product.slug?.current) // ✅ slug থাকলেই নেব
+    .map((product: any) => ({
+      url: `${baseUrl}/products/${product.slug.current}`,
+      lastModified: new Date(product._updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
 
-  // Dynamic category pages
+  // Dynamic category pages – শুধু স্লাগ-ওয়ালা
   const categories = await client.fetch(`
     *[_type == "category"]{
       slug,
@@ -66,14 +68,16 @@ export default async function sitemap() {
     }
   `);
 
-  const categoryPages = categories.map((category: any) => ({
-    url: `${baseUrl}/category/${category.slug.current}`,
-    lastModified: new Date(category._updatedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
+  const categoryPages = categories
+    .filter((category: any) => category.slug?.current)
+    .map((category: any) => ({
+      url: `${baseUrl}/category/${category.slug.current}`,
+      lastModified: new Date(category._updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    }));
 
-  // Dynamic brand pages
+  // Dynamic brand pages – শুধু স্লাগ-ওয়ালা
   const brands = await client.fetch(`
     *[_type == "brand"]{
       slug,
@@ -81,12 +85,14 @@ export default async function sitemap() {
     }
   `);
 
-  const brandPages = brands.map((brand: any) => ({
-    url: `${baseUrl}/brands/${brand.slug.current}`,
-    lastModified: new Date(brand._updatedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
+  const brandPages = brands
+    .filter((brand: any) => brand.slug?.current)
+    .map((brand: any) => ({
+      url: `${baseUrl}/brands/${brand.slug.current}`,
+      lastModified: new Date(brand._updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    }));
 
   return [...staticPages, ...productPages, ...categoryPages, ...brandPages];
 }

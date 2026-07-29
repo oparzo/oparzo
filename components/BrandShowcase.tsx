@@ -5,13 +5,15 @@ import { urlFor } from "@/sanity/lib/image";
 interface Brand {
   _id: string;
   name: string;
-  slug: { current: string };
+  slug?: { current: string } | null;
   logo?: any;
   description?: string;
 }
 
 export default function BrandShowcase({ brands }: { brands: Brand[] }) {
-  if (!brands || brands.length === 0) {
+  const safeBrands = brands || [];
+
+  if (safeBrands.length === 0) {
     return null;
   }
 
@@ -32,7 +34,10 @@ export default function BrandShowcase({ brands }: { brands: Brand[] }) {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {brands.map((brand) => {
+          {safeBrands.map((brand) => {
+            // ✅ slug না থাকলে স্কিপ
+            if (!brand.slug?.current) return null;
+
             const logoUrl = brand.logo
               ? urlFor(brand.logo).width(200).height(100).url()
               : null;

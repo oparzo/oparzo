@@ -6,6 +6,9 @@ import Price from "@/components/Price";
 import { formatVariantLabel } from "@/lib/format";
 
 export default function ProductCard({ product }: any) {
+  // ✅ product বা slug না থাকলে null রিটার্ন
+  if (!product?.slug?.current) return null;
+
   const imageUrl = product.images?.[0]
     ? urlFor(product.images[0]).width(900).url()
     : null;
@@ -17,7 +20,6 @@ export default function ProductCard({ product }: any) {
   return (
     <article className="group w-full">
       <Link href={`/products/${product.slug.current}`}>
-        {/* ✅ parent div-এ position: relative যোগ করা হলো */}
         <div className="relative aspect-square overflow-hidden border border-[#ece7dc] bg-white">
           {imageUrl && (
             <Image
