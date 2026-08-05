@@ -37,10 +37,10 @@ const OrderInput = z.object({
 
 export async function POST(request: Request) {
   try {
-    const session = await requireAuthedCustomer();
+    // ✅ নতুন: { user } ডিস্ট্রাকচার করছি
+    const { user } = await requireAuthedCustomer();
     const payload = OrderInput.parse(await request.json());
 
-    // Resolve prices server-side
     const items = await Promise.all(
       payload.items.map(async (item) => {
         const variantLabel = item.selectedVariant
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
         return {
           product_slug: item.product_slug,
           product_name: name,
-          variant: variant_label ?? undefined, // ✅ fix: null → undefined
+          variant: variant_label ?? undefined,
           quantity: item.quantity,
           unit_price,
           total_price: unit_price * item.quantity,
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       couponCode: payload.couponCode ?? null,
       paymentMethod: payload.payment_method,
       destination: payload.form.district ?? null,
-      profileId: session.user.id,
+      profileId: user.id, // ✅ session.user.id → user.id
     });
 
     let addressId = payload.selectedAddressId ?? null;
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
       const { data: newAddress, error: addressError } = await supabase
         .from("addresses")
         .insert({
-          profile_id: session.user.id,
+          profile_id: user.id, // ✅ session.user.id → user.id
           receiver_name: payload.form.name,
           phone: payload.form.phone,
           address: payload.form.address,
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
     }
 
     const orderData = {
-      profile_id: session.user.id,
+      profile_id: user.id, // ✅ session.user.id → user.id
       address_id: addressId,
       payment_method: payload.payment_method,
       shipping_fee: totals.shipping_fee,

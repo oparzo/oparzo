@@ -11,7 +11,9 @@
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "vercel-build": "NODE_OPTIONS='--max-old-space-size=4096' next build"
+    "vercel-build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@sanity/client": "^7.23.0",
@@ -19,8 +21,8 @@
     "@sanity/vision": "^5.31.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.110.0",
-    "@upstash/ratelimit": "^2.0.8",
-    "@upstash/redis": "^1.38.2",
+    "@upstash/ratelimit": "^2.0.0",
+    "@upstash/redis": "^1.34.0",
     "next": "16.2.9",
     "next-sanity": "^13.1.1",
     "react": "19.2.4",
