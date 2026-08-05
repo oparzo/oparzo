@@ -59,7 +59,7 @@ export async function POST(request: Request) {
         return {
           product_slug: item.product_slug,
           product_name: name,
-          variant: variant_label,
+          variant: variant_label ?? undefined,
           quantity: item.quantity,
           unit_price,
           total_price: unit_price * item.quantity,
