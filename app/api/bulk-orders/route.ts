@@ -26,11 +26,11 @@ export async function POST(request: Request) {
       bulkOrder: result,
     });
   } catch (error) {
-    console.error(error);
+    const message = error instanceof Error ? error.message : "Bulk order submission failed.";
     return NextResponse.json(
       {
         success: false,
-        message: error.message || "Bulk order submission failed.",
+        message,
       },
       {
         status: 500,
