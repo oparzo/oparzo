@@ -7,7 +7,6 @@ import { requireAuthedCustomer, HttpError } from "@/lib/order/guard";
 import { resolveUnitPrice } from "@/lib/order/resolve-price";
 import { calculateTotals } from "@/lib/order/calculate-totals";
 
-// ✅ Zod Schema – ক্লায়েন্ট ইনপুট ভ্যালিডেট করুন
 const OrderInput = z.object({
   items: z
     .array(
@@ -38,13 +37,10 @@ const OrderInput = z.object({
 
 export async function POST(request: Request) {
   try {
-    // ১. অথেন্টিকেশন + রেট লিমিট
     const session = await requireAuthedCustomer();
-
-    // ২. ইনপুট ভ্যালিডেট
     const payload = OrderInput.parse(await request.json());
 
-    // ৩. ❌ ক্লায়েন্ট-পাঠানো প্রাইস বিশ্বাস করবেন না – সার্ভার থেকে রিজলভ করুন
+    // Resolve prices server-side
     const items = await Promise.all(
       payload.items.map(async (item) => {
         const variantLabel = item.selectedVariant
@@ -59,7 +55,7 @@ export async function POST(request: Request) {
         return {
           product_slug: item.product_slug,
           product_name: name,
-          variant: variant_label ?? undefined,
+          variant: variant_label ?? undefined, // ✅ fix: null → undefined
           quantity: item.quantity,
           unit_price,
           total_price: unit_price * item.quantity,
@@ -67,7 +63,6 @@ export async function POST(request: Request) {
       })
     );
 
-    // ৪. ✅ সার্ভার-সাইড টোটাল রিকম্পিউট করুন
     const totals = await calculateTotals({
       items,
       couponCode: payload.couponCode ?? null,
@@ -76,7 +71,6 @@ export async function POST(request: Request) {
       profileId: session.user.id,
     });
 
-    // ৫. অ্যাড্রেস সেভ (যদি চায়)
     let addressId = payload.selectedAddressId ?? null;
     if (payload.saveNewAddress && payload.form.address) {
       const supabase = await server();
@@ -101,7 +95,6 @@ export async function POST(request: Request) {
       }
     }
 
-    // ৬. অর্ডার তৈরি করুন
     const orderData = {
       profile_id: session.user.id,
       address_id: addressId,
