@@ -1,33 +1,13 @@
 import { NextResponse } from "next/server";
 import { createOrder } from "@/lib/order/services/create-order";
-import { getCurrentUser } from "@/lib/auth/auth";
 import { formatVariantLabel } from "@/lib/format";
 import { admin } from "@/lib/supabase/admin";
+import { requireAuthedCustomer, HttpError } from "@/lib/order/guard";
 
 export async function POST(request: Request) {
   try {
+    const session = await requireAuthedCustomer();
     const body = await request.json();
-
-    // ✅ ইউজার লগইন চেক
-    const user = await getCurrentUser();
-
-    // ✅ প্রোফাইল আছে কিনা চেক করুন, না থাকলে তৈরি করুন
-    if (user) {
-      const { data: existingProfile } = await admin
-        .from("profiles")
-        .select("id")
-        .eq("id", user.id)
-        .single();
-
-      if (!existingProfile) {
-        await admin.from("profiles").insert({
-          id: user.id,
-          email: user.email,
-          full_name: body.form?.name || null,
-          role: "customer",
-        });
-      }
-    }
 
     // Map frontend cart items to order_items format
     const items = (body.items || []).map((item: any) => ({
@@ -39,18 +19,17 @@ export async function POST(request: Request) {
       total_price: item.price * item.quantity,
     }));
 
-    // Extract shipping info from form
     const form = body.form || {};
     const selectedAddressId = body.selectedAddressId || null;
     const saveNewAddress = body.saveNewAddress || false;
 
-    // ✅ অ্যাড্রেস সেভ করুন (যদি ইউজার লগইন থাকে এবং সেভ করতে চায়)
+    // ✅ ইউজার লগইন থাকলে অ্যাড্রেস সেভ করুন
     let addressId = selectedAddressId;
-    if (user && saveNewAddress && form.address) {
+    if (saveNewAddress && form.address) {
       const { data: newAddress, error: addressError } = await admin
         .from("addresses")
         .insert({
-          profile_id: user.id,
+          profile_id: session.user.id,
           receiver_name: form.name,
           phone: form.phone,
           address: form.address,
@@ -68,9 +47,9 @@ export async function POST(request: Request) {
       }
     }
 
-    // ✅ অর্ডার ডেটা প্রস্তুত করুন (এখন profile_id সেট করা হচ্ছে)
+    // ✅ অর্ডার ডেটা প্রস্তুত
     const orderData = {
-      profile_id: user?.id || null,
+      profile_id: session.user.id,
       address_id: addressId,
       payment_method: body.payment_method || "Cash on Delivery",
       shipping_fee: body.shipping_fee || 0,
@@ -93,14 +72,20 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error("Order creation error:", error);
+
+    if (error instanceof HttpError) {
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: error.status }
+      );
+    }
+
     return NextResponse.json(
       {
         success: false,
         message: error.message || "Order creation failed",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
