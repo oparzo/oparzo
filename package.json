@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "vercel-build": "NODE_OPTIONS='--max-old-space-size=4096' next build"
   },
   "dependencies": {
@@ -15,14 +19,13 @@
     "@sanity/vision": "^5.31.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.110.0",
-    "@upstash/ratelimit": "^2.0.8",
-    "@upstash/redis": "^1.38.2",
+    "@upstash/ratelimit": "^2.0.0",
+    "@upstash/redis": "^1.34.0",
     "next": "16.2.9",
     "next-sanity": "^13.1.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sanity": "^5.31.1",
-    "styled-components": "^6.4.3"
+    "sanity": "^5.31.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -31,6 +34,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "prettier": "^3.4.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
