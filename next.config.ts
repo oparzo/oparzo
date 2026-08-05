@@ -3,17 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-      },
+      { protocol: "https", hostname: "cdn.sanity.io" },
     ],
-    unoptimized: true,
+    // ❌ unoptimized: true – সরিয়ে দিন; Next.js Sanity অ্যাসেট অপটিমাইজ করবে
   },
-  // ✅ Vercel-এ TypeScript চেক বন্ধ (শুধু বিল্ড পাসের জন্য)
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // ❌ typescript.ignoreBuildErrors: true – সরিয়ে দিন
 };
 
 export default nextConfig;
