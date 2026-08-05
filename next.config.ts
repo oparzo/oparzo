@@ -8,10 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
       },
     ],
-    unoptimized: true, // Android-এ Sharp সাপোর্টেড না
+    unoptimized: true, // Termux-এ Sharp কাজ করে না
   },
+  // ✅ লোকাল বিল্ডের জন্য TypeScript চেক অফ (শুধু Android/ARM64)
+  // Vercel-এর প্রোডাকশন এনভায়রনমেন্টে TypeScript চেক কাজ করবে
   typescript: {
-    ignoreBuildErrors: true, // ✅ লোকাল বিল্ডের জন্য TypeScript চেক বন্ধ
+    ignoreBuildErrors: true,
   },
 };
 

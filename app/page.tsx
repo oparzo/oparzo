@@ -1,8 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import {
-  productsQuery,
-  brandQuery,
-} from "@/sanity/lib/queries";
+import { productsQuery, brandQuery } from "@/sanity/lib/queries";
 import Hero from "@/components/Hero";
 import Categories from "@/components/Categories";
 import BrandShowcase from "@/components/BrandShowcase";
@@ -14,11 +11,7 @@ export default async function Home() {
   const products = await client.fetch(productsQuery);
   const brands = await client.fetch(brandQuery);
   const categories = await client.fetch(`
-    *[_type=="category"]{
-      _id,
-      name,
-      slug
-    }
+    *[_type=="category"]{ _id, name, slug }
   `);
 
   return (

@@ -10,7 +10,6 @@ export default async function Footer() {
     <footer className="bg-[var(--ink)] py-8 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* 4-column grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
 
           {/* Column 1: Brand + Contact + Social */}
@@ -19,7 +18,6 @@ export default async function Footer() {
             <p className="mt-1 text-[10px] sm:text-xs leading-4 text-white/60">
               Authentic. Verified. Yours.
             </p>
-            {/* Contact */}
             <div className="mt-3 space-y-1 text-[10px] sm:text-xs text-white/50">
               {settings.contact_email && (
                 <a href={`mailto:${settings.contact_email}`} className="block hover:text-white truncate">
@@ -42,7 +40,6 @@ export default async function Footer() {
                 </a>
               )}
             </div>
-            {/* Social Links */}
             <div className="mt-2 flex gap-3">
               {settings.instagram_url && (
                 <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-xs transition">
@@ -68,7 +65,7 @@ export default async function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Customer (শুধু My Account + Track Order) */}
+          {/* Column 3: Customer */}
           <div>
             <h3 className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/40">Customer</h3>
             <ul className="space-y-1.5 text-[10px] sm:text-xs">
@@ -86,15 +83,14 @@ export default async function Footer() {
               <li><Link href="/terms" className="text-white/60 hover:text-white transition">Terms</Link></li>
               <li><Link href="/privacy" className="text-white/60 hover:text-white transition">Privacy</Link></li>
             </ul>
-            <div className="mt-3">
-              <h3 className="mb-1 text-[9px] uppercase tracking-[0.2em] text-white/40">Newsletter</h3>
+            <div className="mt-4">
+              <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] mb-2">Newsletter</p>
               <NewsletterForm slim />
             </div>
           </div>
 
         </div>
 
-        {/* Footer bottom */}
         <div className="mt-6 border-t border-white/10 pt-4 text-[9px] text-white/40 text-center">
           <p className="uppercase tracking-[0.2em]">"Bangladesh deserves the real thing."</p>
           <p className="mt-1">© {new Date().getFullYear()} OPARZO. All rights reserved.</p>

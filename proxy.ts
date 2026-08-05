@@ -1,64 +1,47 @@
 import { createServerClient } from "@supabase/ssr";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function proxy(request: NextRequest) {
-  const response = NextResponse.next();
+export default async function proxy(req: NextRequest) {
+  const res = NextResponse.next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options);
-          });
-        },
+        getAll: () => req.cookies.getAll(),
+        setAll: () => {}, // ✅ Proxy-তে setAll খালি রাখা হয়েছে
       },
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { session } } = await supabase.auth.getSession();
 
-  const isAdminPage = request.nextUrl.pathname.startsWith("/admin");
-  const isAdminApi = request.nextUrl.pathname.startsWith("/api/admin");
+  const protectedRoutes = ["/account", "/profile", "/checkout", "/admin"];
+  const isProtected = protectedRoutes.some((route) =>
+    req.nextUrl.pathname.startsWith(route)
+  );
 
-  if (!user && (isAdminPage || isAdminApi)) {
-    if (isAdminApi) {
-      return NextResponse.json(
-        { success: false, error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (isProtected && !session) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (user && (isAdminPage || isAdminApi)) {
+  if (req.nextUrl.pathname.startsWith("/admin") && session) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
-      .eq("id", user.id)
+      .eq("id", session.user.id)
       .single();
 
-    if (!profile || profile.role !== "admin") {
-      if (isAdminApi) {
-        return NextResponse.json(
-          { success: false, error: "Forbidden" },
-          { status: 403 }
-        );
-      }
-      return NextResponse.redirect(new URL("/", request.url));
+    if (profile?.role !== "admin") {
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 
-  return response;
+  return res;
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/account/:path*", "/profile/:path*", "/checkout/:path*", "/admin/:path*"],
 };

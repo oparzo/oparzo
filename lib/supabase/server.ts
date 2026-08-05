@@ -13,9 +13,14 @@ export async function createClient() {
           return cookieStore.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch (error) {
+            // ❌ কুকি সেট করা সম্ভব না – Proxy/Server Component-এ এই এরর ইগনোর করুন
+            console.warn("Cookie set skipped in this context:", error);
+          }
         },
       },
     }
