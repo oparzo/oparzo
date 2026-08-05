@@ -14,6 +14,7 @@ export async function generateStaticParams() {
     }));
 }
 
+// ✅ প্রোডাক্ট ডিটেইল পেজ
 export default async function ProductPage({
   params,
 }: {
