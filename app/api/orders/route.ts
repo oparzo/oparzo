@@ -8,9 +8,26 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // We don't use profile_id for now due to missing profiles table entry
-    // Instead, we store all shipping info directly in orders table
-    // const user = await getCurrentUser(); // optional, for future use
+    // ✅ ইউজার লগইন চেক
+    const user = await getCurrentUser();
+
+    // ✅ প্রোফাইল আছে কিনা চেক করুন, না থাকলে তৈরি করুন
+    if (user) {
+      const { data: existingProfile } = await admin
+        .from("profiles")
+        .select("id")
+        .eq("id", user.id)
+        .single();
+
+      if (!existingProfile) {
+        await admin.from("profiles").insert({
+          id: user.id,
+          email: user.email,
+          full_name: body.form?.name || null,
+          role: "customer",
+        });
+      }
+    }
 
     // Map frontend cart items to order_items format
     const items = (body.items || []).map((item: any) => ({
@@ -27,17 +44,34 @@ export async function POST(request: Request) {
     const selectedAddressId = body.selectedAddressId || null;
     const saveNewAddress = body.saveNewAddress || false;
 
-    // If user is logged in and wants to save the address, we skip saving
-    // because profiles table may not have the user. We'll handle later.
-    // For now, just log it.
-    if (saveNewAddress) {
-      console.log("Address save requested but skipped due to profile issue.");
+    // ✅ অ্যাড্রেস সেভ করুন (যদি ইউজার লগইন থাকে এবং সেভ করতে চায়)
+    let addressId = selectedAddressId;
+    if (user && saveNewAddress && form.address) {
+      const { data: newAddress, error: addressError } = await admin
+        .from("addresses")
+        .insert({
+          profile_id: user.id,
+          receiver_name: form.name,
+          phone: form.phone,
+          address: form.address,
+          area: form.area || null,
+          district: form.district || null,
+          postal_code: form.postal_code || null,
+        })
+        .select()
+        .single();
+
+      if (!addressError && newAddress) {
+        addressId = newAddress.id;
+      } else {
+        console.error("Address save error:", addressError);
+      }
     }
 
-    // Prepare order data with profile_id = null
+    // ✅ অর্ডার ডেটা প্রস্তুত করুন (এখন profile_id সেট করা হচ্ছে)
     const orderData = {
-      profile_id: null, // force null to avoid foreign key error
-      address_id: selectedAddressId,
+      profile_id: user?.id || null,
+      address_id: addressId,
       payment_method: body.payment_method || "Cash on Delivery",
       shipping_fee: body.shipping_fee || 0,
       discount: body.discount || 0,
@@ -45,8 +79,6 @@ export async function POST(request: Request) {
       subtotal: body.subtotal || 0,
       total: body.grandTotal || 0,
       items,
-
-      // Shipping details from form
       shipping_name: form.name || null,
       shipping_phone: form.phone || null,
       shipping_email: form.email || null,
