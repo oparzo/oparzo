@@ -25,3 +25,6 @@ export async function server() {
     }
   );
 }
+
+// ✅ Backward compatibility – পুরনো `createClient` ইমপোর্ট কাজ করবে
+export const createClient = server;
