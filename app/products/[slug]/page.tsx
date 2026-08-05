@@ -4,17 +4,9 @@ import ProductView from "@/components/ProductView";
 import RelatedProducts from "@/components/RelatedProducts";
 import { notFound } from "next/navigation";
 
-// ✅ ISR – বিল্ড টাইমে প্রোডাক্ট স্লাগ প্রি-রেন্ডার (শুধু স্লাগ-ওয়ালা)
-export async function generateStaticParams() {
-  const products = await client.fetch(`*[_type == "product"]{ slug }`);
-  return products
-    .filter((product: any) => product.slug?.current) // ✅ null slug বাদ
-    .map((product: any) => ({
-      slug: product.slug.current,
-    }));
-}
+// ✅ generateStaticParams সরানো হয়েছে – পেজ এখন ডায়নামিক
+// Vercel-এ বিল্ড এরর এড়াতে এই সিদ্ধান্ত
 
-// ✅ প্রোডাক্ট ডিটেইল পেজ
 export default async function ProductPage({
   params,
 }: {
