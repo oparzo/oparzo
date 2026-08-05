@@ -1,39 +1,48 @@
 // types/product.ts
-import { SanityImageAsset } from "./sanity";
 
 export interface Product {
   _id: string;
-  _type: "product";
-  _createdAt: string;
-  _updatedAt: string;
+  _type?: string;
+  _createdAt?: string;
+  _updatedAt?: string;
+
   name: string;
   slug: {
-    _type: "slug";
+    _type?: string;
     current: string;
   };
+
   description?: string;
   images?: SanityImage[];
   variants?: Variant[];
-  category?: {
-    _type: "reference";
-    _ref: string;
-  };
+
+  // References (Sanity references become strings after GROQ)
+  category?: string;
+  categorySlug?: string;
   brand?: string;
+  brandSlug?: string;
+  brandDescription?: string;
+
+  // Flags
   featured?: boolean;
   newArrival?: boolean;
   bestseller?: boolean;
   tags?: string[];
-  metaTitle?: string;
-  metaDescription?: string;
+
+  // SEO
+  seoTitle?: string;
+  seoDescription?: string;
+
+  // Ratings (if you add later)
   rating?: number;
   reviewCount?: number;
 }
 
 export interface Variant {
   _key?: string;
-  volume?: string;
-  weight?: string;
-  size?: string;
+  volume?: string;      // ml, oz
+  weight?: string;      // gm
+  size?: string;        // S, M, L
   color?: string;
   shade?: string;
   price: number;
