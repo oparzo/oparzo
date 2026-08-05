@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 
-export async function createClient() {
+export async function server() {
   const cookieStore = await cookies();
 
   return createServerClient(
@@ -18,8 +18,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch (error) {
-            // ❌ কুকি সেট করা সম্ভব না – Proxy/Server Component-এ এই এরর ইগনোর করুন
-            console.warn("Cookie set skipped in this context:", error);
+            console.warn("Cookie set skipped:", error);
           }
         },
       },

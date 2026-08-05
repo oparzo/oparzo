@@ -1,41 +1,95 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { createOrder } from "@/lib/order/services/create-order";
 import { formatVariantLabel } from "@/lib/format";
-import { admin } from "@/lib/supabase/admin";
+import { server } from "@/lib/supabase/server";
 import { requireAuthedCustomer, HttpError } from "@/lib/order/guard";
+import { resolveUnitPrice } from "@/lib/order/resolve-price";
+import { calculateTotals } from "@/lib/order/calculate-totals";
+
+// ✅ Zod Schema – ক্লায়েন্ট ইনপুট ভ্যালিডেট করুন
+const OrderInput = z.object({
+  items: z
+    .array(
+      z.object({
+        product_slug: z.string().min(1),
+        selectedVariant: z.any().nullable().optional(),
+        quantity: z.number().int().positive().max(20),
+      })
+    )
+    .min(1)
+    .max(50),
+  form: z.object({
+    name: z.string().min(2).max(120),
+    phone: z.string().min(8).max(20),
+    email: z.string().email().max(120).optional().or(z.literal("")),
+    address: z.string().min(5).max(400),
+    area: z.string().max(120).optional(),
+    district: z.string().max(120).optional(),
+    postal_code: z.string().max(20).optional(),
+  }),
+  selectedAddressId: z.string().uuid().nullable().optional(),
+  saveNewAddress: z.boolean().optional(),
+  payment_method: z
+    .enum(["Cash on Delivery", "Stripe", "bKash"])
+    .default("Cash on Delivery"),
+  couponCode: z.string().max(40).nullable().optional(),
+});
 
 export async function POST(request: Request) {
   try {
+    // ১. অথেন্টিকেশন + রেট লিমিট
     const session = await requireAuthedCustomer();
-    const body = await request.json();
 
-    // Map frontend cart items to order_items format
-    const items = (body.items || []).map((item: any) => ({
-      product_slug: item.slug ?? item._id,
-      product_name: item.name,
-      variant: formatVariantLabel(item.selectedVariant),
-      quantity: item.quantity,
-      unit_price: item.price,
-      total_price: item.price * item.quantity,
-    }));
+    // ২. ইনপুট ভ্যালিডেট
+    const payload = OrderInput.parse(await request.json());
 
-    const form = body.form || {};
-    const selectedAddressId = body.selectedAddressId || null;
-    const saveNewAddress = body.saveNewAddress || false;
+    // ৩. ❌ ক্লায়েন্ট-পাঠানো প্রাইস বিশ্বাস করবেন না – সার্ভার থেকে রিজলভ করুন
+    const items = await Promise.all(
+      payload.items.map(async (item) => {
+        const variantLabel = item.selectedVariant
+          ? formatVariantLabel(item.selectedVariant)
+          : null;
 
-    // ✅ ইউজার লগইন থাকলে অ্যাড্রেস সেভ করুন
-    let addressId = selectedAddressId;
-    if (saveNewAddress && form.address) {
-      const { data: newAddress, error: addressError } = await admin
+        const { unit_price, name, variant_label } = await resolveUnitPrice({
+          slug: item.product_slug,
+          variant: variantLabel,
+        });
+
+        return {
+          product_slug: item.product_slug,
+          product_name: name,
+          variant: variant_label,
+          quantity: item.quantity,
+          unit_price,
+          total_price: unit_price * item.quantity,
+        };
+      })
+    );
+
+    // ৪. ✅ সার্ভার-সাইড টোটাল রিকম্পিউট করুন
+    const totals = await calculateTotals({
+      items,
+      couponCode: payload.couponCode ?? null,
+      paymentMethod: payload.payment_method,
+      destination: payload.form.district ?? null,
+      profileId: session.user.id,
+    });
+
+    // ৫. অ্যাড্রেস সেভ (যদি চায়)
+    let addressId = payload.selectedAddressId ?? null;
+    if (payload.saveNewAddress && payload.form.address) {
+      const supabase = await server();
+      const { data: newAddress, error: addressError } = await supabase
         .from("addresses")
         .insert({
           profile_id: session.user.id,
-          receiver_name: form.name,
-          phone: form.phone,
-          address: form.address,
-          area: form.area || null,
-          district: form.district || null,
-          postal_code: form.postal_code || null,
+          receiver_name: payload.form.name,
+          phone: payload.form.phone,
+          address: payload.form.address,
+          area: payload.form.area || null,
+          district: payload.form.district || null,
+          postal_code: payload.form.postal_code || null,
         })
         .select()
         .single();
@@ -47,44 +101,42 @@ export async function POST(request: Request) {
       }
     }
 
-    // ✅ অর্ডার ডেটা প্রস্তুত
+    // ৬. অর্ডার তৈরি করুন
     const orderData = {
       profile_id: session.user.id,
       address_id: addressId,
-      payment_method: body.payment_method || "Cash on Delivery",
-      shipping_fee: body.shipping_fee || 0,
-      discount: body.discount || 0,
-      coupon_code: body.couponCode || null,
-      subtotal: body.subtotal || 0,
-      total: body.grandTotal || 0,
+      payment_method: payload.payment_method,
+      shipping_fee: totals.shipping_fee,
+      discount: totals.discount,
+      coupon_code: payload.couponCode ?? null,
+      subtotal: totals.subtotal,
+      total: totals.grand_total,
       items,
-      shipping_name: form.name || null,
-      shipping_phone: form.phone || null,
-      shipping_email: form.email || null,
-      shipping_address: form.address || null,
+      shipping_name: payload.form.name,
+      shipping_phone: payload.form.phone,
+      shipping_email: payload.form.email || null,
+      shipping_address: payload.form.address,
     };
 
     const order = await createOrder(orderData);
 
-    return NextResponse.json({
-      success: true,
-      order,
-    });
-  } catch (error: any) {
-    console.error("Order creation error:", error);
-
-    if (error instanceof HttpError) {
+    return NextResponse.json({ success: true, order }, { status: 201 });
+  } catch (err) {
+    if (err instanceof HttpError) {
       return NextResponse.json(
-        { success: false, message: error.message },
-        { status: error.status }
+        { success: false, message: err.message },
+        { status: err.status }
       );
     }
-
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, issues: err.issues },
+        { status: 422 }
+      );
+    }
+    console.error("[orders] unhandled:", err);
     return NextResponse.json(
-      {
-        success: false,
-        message: error.message || "Order creation failed",
-      },
+      { success: false, message: "Internal error" },
       { status: 500 }
     );
   }
