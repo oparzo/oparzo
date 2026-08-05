@@ -11,9 +11,9 @@
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "vercel-build": "NODE_OPTIONS='--max-old-space-size=4096' next build",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run --config config/vitest.config.ts",
+    "test:watch": "vitest --config config/vitest.config.ts",
+    "vercel-build": "NODE_OPTIONS='--max-old-space-size=4096' next build"
   },
   "dependencies": {
     "@sanity/client": "^7.23.0",
@@ -27,18 +27,23 @@
     "next-sanity": "^13.1.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sanity": "^5.31.1"
+    "sanity": "^5.31.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.5",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "fake-indexeddb": "^6.0.0",
     "prettier": "^3.4.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.0.5"
   },
   "allowScripts": {
     "sharp@0.34.5": true,
