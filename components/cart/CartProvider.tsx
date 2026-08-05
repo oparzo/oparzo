@@ -1,18 +1,5 @@
 "use client";
 
-// DECISION (see audit item #7): cart stays localStorage-only / guest-first
-// for now, rather than syncing to Supabase. Reasons:
-//  1. It already works correctly for both guests and logged-in users.
-//  2. The existing `cart_items` table (and /api/cart) only stores
-//     product_id + quantity — it has no columns for variant, price, or
-//     currency, so it can't actually represent what's in this cart
-//     (products here carry selectedVariant, price, currency). Wiring
-//     this up properly needs a schema change and product decisions
-//     (e.g. do we snapshot price at add-time or always re-fetch from
-//     Sanity?) rather than a quick fix.
-// /api/cart is left in place, unused, as a starting point for that
-// future work rather than deleted.
-
 import {
   createContext,
   useContext,
@@ -20,15 +7,18 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Product, Variant } from "@/types/product";
 
-type CartItem = {
+export type CartItem = {
   _id: string;
   name: string;
   slug?: string;
   price: number;
   currency?: string;
   quantity: number;
-  selectedVariant?: any;
+  selectedVariant?: Variant;
+  images?: any[];
+  brand?: string;
 };
 
 type CartContextType = {
@@ -43,26 +33,18 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | null>(null);
 
-export function CartProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const saved = localStorage.getItem("oparzo-cart");
-
     if (saved) {
       setCart(JSON.parse(saved));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(
-      "oparzo-cart",
-      JSON.stringify(cart)
-    );
+    localStorage.setItem("oparzo-cart", JSON.stringify(cart));
   }, [cart]);
 
   function addToCart(item: CartItem) {
@@ -73,13 +55,11 @@ export function CartProvider({
           JSON.stringify(p.selectedVariant) ===
             JSON.stringify(item.selectedVariant)
       );
-
       if (existingIndex !== -1) {
         const updated = [...prev];
         updated[existingIndex].quantity += item.quantity;
         return updated;
       }
-
       return [...prev, item];
     });
   }
@@ -88,17 +68,11 @@ export function CartProvider({
     setCart((prev) => prev.filter((_, i) => i !== index));
   }
 
-  function updateQuantity(
-    index: number,
-    quantity: number
-  ) {
+  function updateQuantity(index: number, quantity: number) {
     setCart((prev) => {
       const updated = [...prev];
-
       if (!updated[index]) return prev;
-
       updated[index].quantity = Math.max(1, quantity);
-
       return updated;
     });
   }
@@ -108,21 +82,12 @@ export function CartProvider({
   }
 
   const cartCount = useMemo(
-    () =>
-      cart.reduce(
-        (total, item) => total + item.quantity,
-        0
-      ),
+    () => cart.reduce((total, item) => total + item.quantity, 0),
     [cart]
   );
 
   const subtotal = useMemo(
-    () =>
-      cart.reduce(
-        (total, item) =>
-          total + item.price * item.quantity,
-        0
-      ),
+    () => cart.reduce((total, item) => total + item.price * item.quantity, 0),
     [cart]
   );
 
@@ -145,12 +110,8 @@ export function CartProvider({
 
 export function useCart() {
   const context = useContext(CartContext);
-
   if (!context) {
-    throw new Error(
-      "useCart must be used within CartProvider"
-    );
+    throw new Error("useCart must be used within CartProvider");
   }
-
   return context;
 }

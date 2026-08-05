@@ -1,21 +1,21 @@
-export default function BrandInfo({
-  brand,
-  description,
-}: {
-  brand: string;
-  description?: string;
-}) {
-  if (!description) return null;
+import Link from "next/link";
+import { Product } from "@/types/product";
+
+export default function BrandInfo({ product }: { product: Product }) {
+  if (!product.brand) return null;
 
   return (
-    <section className="mt-12 rounded-2xl border bg-white p-6">
-      <h3 className="text-xl font-semibold">
-        About {brand}
-      </h3>
-
-      <p className="mt-4 leading-8 text-gray-600">
-        {description}
-      </p>
-    </section>
+    <div className="border-t border-[var(--stone)] pt-6 mt-6">
+      <h3 className="text-sm font-medium">About {product.brand}</h3>
+      {product.brandDescription && (
+        <p className="mt-2 text-sm text-gray-600">{product.brandDescription}</p>
+      )}
+      <Link
+        href={`/brands/${product.brandSlug}`}
+        className="mt-3 inline-block text-sm text-[var(--gold)] hover:underline"
+      >
+        View all {product.brand} products →
+      </Link>
+    </div>
   );
 }
