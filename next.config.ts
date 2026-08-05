@@ -8,15 +8,10 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
       },
     ],
-    // Android-এ sharp সাপোর্টেড না, তাই unoptimized চালু
-    unoptimized: true,
+    unoptimized: true, // Android-এ Sharp সাপোর্টেড না
   },
-  // লোকাল বিল্ডের জন্য TypeScript ও ESLint চেক অফ (শুধু টেস্টের জন্য)
   typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
+    ignoreBuildErrors: true, // ✅ লোকাল বিল্ডের জন্য TypeScript চেক বন্ধ
   },
 };
 

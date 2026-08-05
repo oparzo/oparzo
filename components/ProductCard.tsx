@@ -4,17 +4,17 @@ import { urlFor } from "@/sanity/lib/image";
 import WishlistButton from "@/components/WishlistButton";
 import Price from "@/components/Price";
 import { formatVariantLabel } from "@/lib/format";
+import { Product, Variant } from "@/types/product";
 
-export default function ProductCard({ product }: any) {
-  // ✅ product বা slug না থাকলে null রিটার্ন
+export default function ProductCard({ product }: { product: Product }) {
   if (!product?.slug?.current) return null;
 
   const imageUrl = product.images?.[0]
     ? urlFor(product.images[0]).width(900).url()
     : null;
 
-  const variant = product.variants?.[0];
-  const variantLabel = formatVariantLabel(variant);
+  const variant: Variant | undefined = product.variants?.[0];
+  const variantLabel = variant ? formatVariantLabel(variant) : null;
   const hasPrice = variant?.price && variant.price > 0;
 
   return (

@@ -5,14 +5,12 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden h-[280px] sm:h-[320px] lg:h-[380px] flex items-center">
-      {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       />
       <div className="absolute inset-0 bg-black/30" />
 
-      {/* Content – minimal padding, small text */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl text-white">
           <p className="text-[8px] sm:text-[9px] uppercase tracking-[0.3em] text-white/70">

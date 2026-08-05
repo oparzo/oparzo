@@ -1,7 +1,8 @@
 import ProductCard from "@/components/ProductCard";
+import { Product } from "@/types/product";
 
 interface FeaturedProductsProps {
-  products: any[];
+  products: Product[];
   filter?: "featured" | "newArrival" | "bestseller";
   title: string;
   subtitle: string;
@@ -13,18 +14,18 @@ export default function FeaturedProducts({
   title,
   subtitle,
 }: FeaturedProductsProps) {
-  // Filter products based on the filter prop
-  let filteredProducts = products;
+  const safeProducts = products || [];
+
+  let filteredProducts = safeProducts;
 
   if (filter === "featured") {
-    filteredProducts = products.filter((p) => p.featured === true);
+    filteredProducts = safeProducts.filter((p) => p.featured === true);
   } else if (filter === "newArrival") {
-    filteredProducts = products.filter((p) => p.newArrival === true);
+    filteredProducts = safeProducts.filter((p) => p.newArrival === true);
   } else if (filter === "bestseller") {
-    filteredProducts = products.filter((p) => p.bestseller === true);
+    filteredProducts = safeProducts.filter((p) => p.bestseller === true);
   }
 
-  // If no products match the filter, don't render the section
   if (filteredProducts.length === 0) {
     return null;
   }
@@ -32,7 +33,6 @@ export default function FeaturedProducts({
   return (
     <section className="py-12 sm:py-16 lg:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8 sm:mb-12">
           <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gray-500">
             {subtitle}
@@ -42,9 +42,8 @@ export default function FeaturedProducts({
           </h2>
         </div>
 
-        {/* Product Grid - Responsive: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {filteredProducts.map((product: any) => (
+          {filteredProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
