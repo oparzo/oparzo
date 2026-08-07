@@ -1,3 +1,5 @@
+import { verifyCoupon } from "./coupon-helpers";
+
 interface CalculateTotalsInput {
   items: Array<{
     product_slug: string;
@@ -16,6 +18,7 @@ interface CalculateTotalsOutput {
   discount: number;
   shipping_fee: number;
   grand_total: number;
+  coupon_message?: string;
 }
 
 export async function calculateTotals({
@@ -25,7 +28,7 @@ export async function calculateTotals({
   destination,
   profileId,
 }: CalculateTotalsInput): Promise<CalculateTotalsOutput> {
-  // ১. subtotal – items থেকে যোগ করুন
+  // ১. Subtotal – items থেকে যোগ করুন
   let subtotal = 0;
   for (const item of items) {
     if (item.quantity < 0) {
@@ -34,26 +37,24 @@ export async function calculateTotals({
     subtotal += item.total_price;
   }
 
-  // ২. ডিসকাউন্ট – কুপন কোড যাচাই করুন (এখন শুধু ডেমো)
+  // ২. ডিসকাউন্ট – আসল কুপন সিস্টেম থেকে ভেরিফাই করুন
   let discount = 0;
+  let coupon_message: string | undefined;
+
   if (couponCode) {
-    // ✅ টেস্টের জন্য "VALID" কুপন ২০ ডিসকাউন্ট দেবে
-    if (couponCode === "VALID") {
-      discount = 20;
+    const result = await verifyCoupon(couponCode, subtotal);
+    if (result.valid) {
+      discount = result.discount;
+      coupon_message = result.message;
     } else {
-      discount = 0;
+      // Invalid coupon – discount 0, message optional
+      coupon_message = result.message;
     }
   }
 
-  // ৩. শিপিং চার্জ – destination অনুযায়ী
+  // ৩. শিপিং ফি – destination অনুযায়ী (বর্তমানে 0, কারণ concierge-confirmed)
+  // আপনি চাইলে ফিক্সড রেট চালু করতে পারেন
   let shipping_fee = 0;
-  if (destination === "Dhaka") {
-    shipping_fee = 60;
-  } else if (destination) {
-    shipping_fee = 100;
-  } else {
-    shipping_fee = 0;
-  }
 
   // ৪. গ্র্যান্ড টোটাল
   const grand_total = subtotal - discount + shipping_fee;
@@ -63,5 +64,6 @@ export async function calculateTotals({
     discount,
     shipping_fee,
     grand_total,
+    coupon_message,
   };
 }
