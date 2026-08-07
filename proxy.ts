@@ -5,25 +5,26 @@ import type { NextRequest } from "next/server";
 const ADMIN_ROLES = ["admin", "superadmin"] as const;
 type AdminRole = (typeof ADMIN_ROLES)[number];
 
-// setAll is intentionally a no-op: cookies must be written in route
-// handlers / server actions where the response object reaches the client.
-
 export default async function proxy(req: NextRequest) {
   const res = NextResponse.next();
 
-  try {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll: () => req.cookies.getAll(),
-          setAll: () => {},
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll: () => req.cookies.getAll(),
+        setAll: (cookiesToSet) => {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            res.cookies.set(name, value, options);
+          });
         },
-      }
-    );
+      },
+    }
+  );
 
-    // ✅ getUser() — verifies JWT server-side. Never use getSession() for auth.
+  try {
+    // ✅ getUser() – verifies JWT server-side
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
     const protectedRoutes = ["/account", "/profile", "/checkout", "/admin"];
@@ -48,10 +49,15 @@ export default async function proxy(req: NextRequest) {
       }
     }
   } catch (err) {
+    // Fail closed
     console.error("[proxy] auth check failed:", err);
+    // ✅ /checkout সহ সব protected route-কে /login-এ redirect
+    const path = req.nextUrl.pathname;
     if (
-      req.nextUrl.pathname.startsWith("/admin") ||
-      req.nextUrl.pathname.startsWith("/account")
+      path.startsWith("/admin") ||
+      path.startsWith("/account") ||
+      path.startsWith("/profile") ||
+      path.startsWith("/checkout")
     ) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
