@@ -1,6 +1,30 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { admin } from "@/lib/supabase/admin";
+import { client } from "@/sanity/lib/client";
 
+// ✅ Zod Schema – ইনপুট ভ্যালিডেশন
+const ReviewInput = z.object({
+  product_slug: z
+    .string()
+    .min(1)
+    .max(100)
+    .regex(/^[a-z0-9-]+$/, "Invalid slug format"),
+  user_name: z.string().min(2).max(80),
+  rating: z.number().int().min(1).max(5),
+  comment: z.string().min(10).max(2000),
+});
+
+// ✅ রেট লিমিটার – প্রতি IP ৩টি রিভিউ প্রতি ১০ মিনিটে
+const limiter = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "10 m"),
+  prefix: "rl:reviews",
+});
+
+// ✅ GET – অ্যাপ্রুভড রিভিউ আনা
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const productSlug = searchParams.get("productSlug");
@@ -18,11 +42,9 @@ export async function GET(request: Request) {
       query = query.eq("product_slug", productSlug);
     }
 
-    // all=true হলে limit প্রয়োগ করব, অন্যথায় ডিফল্ট ৩
     if (all) {
       query = query.limit(limit);
     } else if (productSlug) {
-      // নির্দিষ্ট প্রোডাক্টের জন্য সর্বোচ্চ ৩টি
       query = query.limit(3);
     }
 
@@ -40,32 +62,48 @@ export async function GET(request: Request) {
   }
 }
 
+// ✅ POST – নতুন রিভিউ জমা (অ্যাপ্রুভাল পেন্ডিং)
 export async function POST(request: Request) {
   try {
+    // ১. IP-ভিত্তিক রেট লিমিট
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    const { success } = await limiter.limit(ip);
+    if (!success) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+
+    // ২. Zod দিয়ে ইনপুট ভ্যালিডেট
     const body = await request.json();
-    const { product_slug, user_name, rating, comment } = body;
+    const validated = ReviewInput.parse(body);
 
-    if (!product_slug || !user_name || !rating || !comment) {
+    // ৩. ✅ Sanity-তে slug আসলেই আছে কিনা চেক করুন
+    const sanityCheck = await client.fetch(
+      `*[_type == "product" && slug.current == $slug][0]{ _id }`,
+      { slug: validated.product_slug }
+    );
+
+    if (!sanityCheck) {
       return NextResponse.json(
-        { success: false, message: "All fields are required" },
-        { status: 400 }
+        { success: false, message: "Product not found" },
+        { status: 404 }
       );
     }
 
-    if (rating < 1 || rating > 5) {
-      return NextResponse.json(
-        { success: false, message: "Rating must be between 1 and 5" },
-        { status: 400 }
-      );
-    }
-
+    // ৪. Supabase-এ রিভিউ ইনসার্ট
     const { data, error } = await admin
       .from("reviews")
       .insert({
-        product_slug,
-        user_name,
-        rating,
-        comment,
+        product_slug: validated.product_slug,
+        user_name: validated.user_name,
+        rating: validated.rating,
+        comment: validated.comment,
         is_approved: false,
       })
       .select()
@@ -79,6 +117,18 @@ export async function POST(request: Request) {
       review: data,
     });
   } catch (error) {
+    // Zod এরর হ্যান্ডলিং
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Validation failed",
+          issues: error.issues,
+        },
+        { status: 422 }
+      );
+    }
+
     console.error("POST review error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to submit review" },
