@@ -14,22 +14,45 @@ interface Review {
 export default function CustomerReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
-      // ৬টি রিভিউ আনার জন্য limit=6 পাঠানো হচ্ছে
-      const res = await fetch("/api/reviews?all=true&limit=6");
-      const data = await res.json();
-      if (data.success) {
-        setReviews(data.reviews);
+      try {
+        const res = await fetch("/api/reviews?all=true&limit=6");
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.success) {
+          setReviews(data.reviews || []);
+        } else {
+          throw new Error(data.message || "Failed to fetch reviews");
+        }
+      } catch (err) {
+        console.error("CustomerReviews fetch error:", err);
+        setError("Unable to load reviews. Please try again later.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchReviews();
   }, []);
 
   if (loading) {
-    return <div className="py-12 text-center text-gray-500">Loading reviews...</div>;
+    return (
+      <div className="py-12 text-center text-gray-500">
+        Loading reviews...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-12 text-center text-red-500 text-sm">
+        {error}
+      </div>
+    );
   }
 
   if (reviews.length === 0) {
@@ -61,8 +84,12 @@ export default function CustomerReviews() {
               <div className="flex items-center gap-2 text-yellow-500 text-lg">
                 {renderStars(review.rating)}
               </div>
-              <p className="mt-4 text-gray-700 leading-relaxed">"{review.comment}"</p>
-              <p className="mt-4 text-sm font-medium text-[var(--ink)]">— {review.user_name}</p>
+              <p className="mt-4 text-gray-700 leading-relaxed">
+                "{review.comment}"
+              </p>
+              <p className="mt-4 text-sm font-medium text-[var(--ink)]">
+                — {review.user_name}
+              </p>
             </div>
           ))}
         </div>
