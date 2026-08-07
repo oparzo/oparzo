@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { admin } from "@/lib/supabase/admin";
+import { supabase } from "@/lib/supabase/client";
 
 export default function ShippingAdminPage() {
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function ShippingAdminPage() {
 
   async function loadSettings() {
     try {
-      const { data, error } = await admin
+      const { data, error } = await supabase
         .from("site_settings")
         .select("key, value")
         .in("key", ["shipping_enabled", "shipping_fixed_rate", "shipping_free_threshold"]);
@@ -56,7 +56,7 @@ export default function ShippingAdminPage() {
       ];
 
       for (const item of payload) {
-        await admin
+        await supabase
           .from("site_settings")
           .upsert({ key: item.key, value: item.value }, { onConflict: "key" });
       }
