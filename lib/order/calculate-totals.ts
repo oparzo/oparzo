@@ -1,4 +1,5 @@
 import { verifyCoupon } from "./coupon-helpers";
+import { getShippingFee } from "@/lib/settings/shipping";
 
 interface CalculateTotalsInput {
   items: Array<{
@@ -28,7 +29,7 @@ export async function calculateTotals({
   destination,
   profileId,
 }: CalculateTotalsInput): Promise<CalculateTotalsOutput> {
-  // ১. Subtotal – items থেকে যোগ করুন
+  // 1. Calculate subtotal from items
   let subtotal = 0;
   for (const item of items) {
     if (item.quantity < 0) {
@@ -37,7 +38,7 @@ export async function calculateTotals({
     subtotal += item.total_price;
   }
 
-  // ২. ডিসকাউন্ট – আসল কুপন সিস্টেম থেকে ভেরিফাই করুন
+  // 2. Discount – verify via real coupon system
   let discount = 0;
   let coupon_message: string | undefined;
 
@@ -47,16 +48,19 @@ export async function calculateTotals({
       discount = result.discount;
       coupon_message = result.message;
     } else {
-      // Invalid coupon – discount 0, message optional
       coupon_message = result.message;
     }
   }
 
-  // ৩. শিপিং ফি – destination অনুযায়ী (বর্তমানে 0, কারণ concierge-confirmed)
-  // আপনি চাইলে ফিক্সড রেট চালু করতে পারেন
-  let shipping_fee = 0;
+  // 3. Shipping fee – dynamic from settings (default 0, concierge-confirmed)
+  const shipping_fee = await getShippingFee({
+    destination,
+    subtotal,
+    profileId,
+    paymentMethod,
+  });
 
-  // ৪. গ্র্যান্ড টোটাল
+  // 4. Grand total
   const grand_total = subtotal - discount + shipping_fee;
 
   return {
