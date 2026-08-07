@@ -7,8 +7,7 @@ export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();
 
   const total = cart.reduce(
-    (sum: number, item: any) =>
-      sum + (item.price ?? 0) * (item.quantity ?? 1),
+    (sum: number, item: any) => sum + (item.price ?? 0) * (item.quantity ?? 1),
     0
   );
 
@@ -18,10 +17,7 @@ export default function CartPage() {
         <h1 className="text-5xl font-serif">Shopping Bag</h1>
 
         {cart.length > 0 && (
-          <button
-            onClick={clearCart}
-            className="text-sm underline"
-          >
+          <button onClick={clearCart} className="text-sm underline">
             Clear Bag
           </button>
         )}
@@ -38,39 +34,28 @@ export default function CartPage() {
                 className="border rounded-xl p-6 flex justify-between"
               >
                 <div>
-                  <h2 className="text-xl font-semibold">
-                    {item.name}
-                  </h2>
+                  <h2 className="text-xl font-semibold">{item.name}</h2>
 
-                  <p className="text-gray-500">
-                    {item.brand}
-                  </p>
+                  <p className="text-gray-500">{item.brand}</p>
 
                   {item.selectedVariant && (
                     <div className="mt-2 space-y-1 text-sm text-gray-600">
                       <p>
-                        <strong>
-                          {item.selectedVariant.type}:
-                        </strong>{" "}
+                        <strong>{item.selectedVariant.type}:</strong>{" "}
                         {item.selectedVariant.value}
                       </p>
 
                       {item.selectedVariant.color && (
                         <p>
-                          <strong>Color:</strong>{" "}
-                          {item.selectedVariant.color}
+                          <strong>Color:</strong> {item.selectedVariant.color}
                         </p>
                       )}
                     </div>
                   )}
 
-                  <p className="mt-3">
-                    Qty: {item.quantity}
-                  </p>
+                  <p className="mt-3">Qty: {item.quantity}</p>
 
-                  <p className="mt-2 font-medium">
-                    BDT {item.price}
-                  </p>
+                  <p className="mt-2 font-medium">BDT {item.price}</p>
                 </div>
 
                 <button
@@ -84,13 +69,9 @@ export default function CartPage() {
           </div>
 
           <div className="mt-10 border-t pt-8 flex justify-between items-center">
-            <h2 className="text-3xl font-serif">
-              Total
-            </h2>
+            <h2 className="text-3xl font-serif">Total</h2>
 
-            <p className="text-2xl">
-              BDT {total}
-            </p>
+            <p className="text-2xl">BDT {total}</p>
           </div>
 
           <Link

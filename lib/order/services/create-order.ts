@@ -5,11 +5,8 @@ import {
   generateOrderNumber,
 } from "@/lib/order";
 
-export async function createOrder(
-  input: CreateOrderInput
-) {
-  const orderNumber =
-    generateOrderNumber();
+export async function createOrder(input: CreateOrderInput) {
+  const orderNumber = generateOrderNumber();
 
   // Recompute the discount from the coupon record itself rather than
   // trusting the client-sent amount, and re-check active/expiry/usage
@@ -35,20 +32,17 @@ export async function createOrder(
 
     const notExpired =
       !!coupon &&
-      (!coupon.expires_at ||
-        new Date(coupon.expires_at) >= new Date());
+      (!coupon.expires_at || new Date(coupon.expires_at) >= new Date());
 
     const underUsageLimit =
-      !!coupon &&
-      Number(coupon.used_count) < Number(coupon.usage_limit);
+      !!coupon && Number(coupon.used_count) < Number(coupon.usage_limit);
 
     if (coupon && notExpired && underUsageLimit) {
       couponId = coupon.id;
       couponCode = coupon.code;
 
       if (coupon.discount_type === "percentage") {
-        verifiedDiscount =
-          (rawSubtotal * Number(coupon.discount_value)) / 100;
+        verifiedDiscount = (rawSubtotal * Number(coupon.discount_value)) / 100;
 
         if (
           coupon.maximum_discount &&
@@ -63,8 +57,7 @@ export async function createOrder(
       await admin
         .from("coupons")
         .update({
-          used_count:
-            Number(coupon.used_count) + 1,
+          used_count: Number(coupon.used_count) + 1,
         })
         .eq("id", coupon.id);
     }
@@ -76,57 +69,43 @@ export async function createOrder(
     verifiedDiscount
   );
 
-  const { data: order, error } =
-    await admin
-      .from("orders")
-      .insert({
-        order_number: orderNumber,
+  const { data: order, error } = await admin
+    .from("orders")
+    .insert({
+      order_number: orderNumber,
 
-        profile_id:
-          input.profile_id,
+      profile_id: input.profile_id,
 
-        status: "Pending",
+      status: "Pending",
 
-        payment_status:
-          "Pending",
+      payment_status: "Pending",
 
-        payment_method:
-          input.payment_method,
+      payment_method: input.payment_method,
 
-        subtotal:
-          totals.subtotal,
+      subtotal: totals.subtotal,
 
-        discount:
-          totals.discount,
+      discount: totals.discount,
 
-        shipping_fee:
-          totals.shippingFee,
+      shipping_fee: totals.shippingFee,
 
-        total:
-          totals.total,
+      total: totals.total,
 
-        coupon_id:
-          couponId,
+      coupon_id: couponId,
 
-        coupon_code:
-          couponCode,
+      coupon_code: couponCode,
 
-        shipping_name:
-          input.shipping_name ?? null,
+      shipping_name: input.shipping_name ?? null,
 
-        shipping_phone:
-          input.shipping_phone ?? null,
+      shipping_phone: input.shipping_phone ?? null,
 
-        shipping_email:
-          input.shipping_email ?? null,
+      shipping_email: input.shipping_email ?? null,
 
-        shipping_address:
-          input.shipping_address ?? null,
+      shipping_address: input.shipping_address ?? null,
 
-        notes: null,
-      })
-      .select()
-      .single();
+      notes: null,
+    })
+    .select()
+    .single();
 
   if (error) {
     throw error;
@@ -148,10 +127,7 @@ export async function createOrder(
     total_price: item.total_price,
   }));
 
-  const { error: itemError } =
-    await admin
-      .from("order_items")
-      .insert(items);
+  const { error: itemError } = await admin.from("order_items").insert(items);
 
   if (itemError) {
     throw itemError;

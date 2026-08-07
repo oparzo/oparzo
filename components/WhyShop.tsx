@@ -3,27 +3,32 @@ export default function WhyShop() {
     {
       icon: "✓",
       title: "100% Authentic Products",
-      description: "Every product is sourced directly from trusted brands and verified retailers.",
+      description:
+        "Every product is sourced directly from trusted brands and verified retailers.",
     },
     {
       icon: "🌍",
       title: "Direct Global Sourcing",
-      description: "We import from trusted international brands to ensure authenticity and freshness.",
+      description:
+        "We import from trusted international brands to ensure authenticity and freshness.",
     },
     {
       icon: "⭐",
       title: "Request Any Product",
-      description: "Can't find a product? Submit a request and we'll source it for you.",
+      description:
+        "Can't find a product? Submit a request and we'll source it for you.",
     },
     {
       icon: "📦",
       title: "Bulk Order Solutions",
-      description: "Competitive pricing for businesses, salons, clinics, and organizations.",
+      description:
+        "Competitive pricing for businesses, salons, clinics, and organizations.",
     },
     {
       icon: "💰",
       title: "Competitive Pricing",
-      description: "Direct sourcing allows us to offer fair pricing without compromising authenticity.",
+      description:
+        "Direct sourcing allows us to offer fair pricing without compromising authenticity.",
     },
     {
       icon: "✅",
@@ -33,12 +38,14 @@ export default function WhyShop() {
     {
       icon: "🔒",
       title: "Secure Shopping Experience",
-      description: "Transparent communication, safe ordering, and reliable delivery.",
+      description:
+        "Transparent communication, safe ordering, and reliable delivery.",
     },
     {
       icon: "🤝",
       title: "Dedicated Customer Support",
-      description: "Friendly assistance before, during, and after your purchase.",
+      description:
+        "Friendly assistance before, during, and after your purchase.",
     },
   ];
 
@@ -61,8 +68,12 @@ export default function WhyShop() {
               key={index}
               className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-[var(--stone)] transition hover:shadow-md hover:-translate-y-1 duration-300"
             >
-              <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{point.icon}</div>
-              <h3 className="text-xs sm:text-sm font-medium text-[var(--ink)]">{point.title}</h3>
+              <div className="text-xl sm:text-2xl mb-1 sm:mb-2">
+                {point.icon}
+              </div>
+              <h3 className="text-xs sm:text-sm font-medium text-[var(--ink)]">
+                {point.title}
+              </h3>
               <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500 leading-relaxed">
                 {point.description}
               </p>

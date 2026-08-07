@@ -1,174 +1,105 @@
-import {defineField, defineType} from "sanity"
-
-
+import { defineField, defineType } from "sanity";
 
 export default defineType({
+  name: "order",
 
-name:"order",
+  title: "Order",
 
-title:"Order",
+  type: "document",
 
-type:"document",
+  fields: [
+    defineField({
+      name: "customerName",
 
+      title: "Customer Name",
 
+      type: "string",
+    }),
 
-fields:[
+    defineField({
+      name: "phone",
 
+      title: "Phone",
 
-defineField({
+      type: "string",
+    }),
 
-name:"customerName",
+    defineField({
+      name: "email",
 
-title:"Customer Name",
+      title: "Email",
 
-type:"string"
+      type: "string",
+    }),
 
-}),
+    defineField({
+      name: "address",
 
+      title: "Delivery Address",
 
+      type: "text",
+    }),
 
-defineField({
+    defineField({
+      name: "products",
 
-name:"phone",
+      title: "Products",
 
-title:"Phone",
+      type: "array",
 
-type:"string"
+      of: [
+        {
+          type: "object",
 
-}),
+          fields: [
+            {
+              name: "name",
 
+              title: "Product Name",
 
+              type: "string",
+            },
 
-defineField({
+            {
+              name: "price",
 
-name:"email",
+              title: "Price",
 
-title:"Email",
+              type: "number",
+            },
 
-type:"string"
+            {
+              name: "quantity",
 
-}),
+              title: "Quantity",
 
+              type: "number",
+            },
+          ],
+        },
+      ],
+    }),
 
+    defineField({
+      name: "status",
 
-defineField({
+      title: "Order Status",
 
-name:"address",
+      type: "string",
 
-title:"Delivery Address",
+      initialValue: "pending",
 
-type:"text"
+      options: {
+        list: ["pending", "confirmed", "shipped", "completed", "cancelled"],
+      },
+    }),
 
-}),
+    defineField({
+      name: "createdAt",
 
+      title: "Created At",
 
-
-
-defineField({
-
-name:"products",
-
-title:"Products",
-
-type:"array",
-
-of:[
-
-{
-
-type:"object",
-
-fields:[
-
-{
-
-name:"name",
-
-title:"Product Name",
-
-type:"string"
-
-},
-
-
-{
-
-name:"price",
-
-title:"Price",
-
-type:"number"
-
-},
-
-
-{
-
-name:"quantity",
-
-title:"Quantity",
-
-type:"number"
-
-}
-
-
-]
-
-}
-
-]
-
-}),
-
-
-
-
-defineField({
-
-name:"status",
-
-title:"Order Status",
-
-type:"string",
-
-initialValue:"pending",
-
-options:{
-
-list:[
-
-"pending",
-
-"confirmed",
-
-"shipped",
-
-"completed",
-
-"cancelled"
-
-]
-
-}
-
-}),
-
-
-
-defineField({
-
-name:"createdAt",
-
-title:"Created At",
-
-type:"datetime"
-
-})
-
-
-
-]
-
-
-})
+      type: "datetime",
+    }),
+  ],
+});

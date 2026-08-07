@@ -11,7 +11,10 @@ export default function ShippingAdminPage() {
     shipping_free_threshold: 0,
   });
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     loadSettings();
@@ -22,7 +25,11 @@ export default function ShippingAdminPage() {
       const { data, error } = await supabase
         .from("site_settings")
         .select("key, value")
-        .in("key", ["shipping_enabled", "shipping_fixed_rate", "shipping_free_threshold"]);
+        .in("key", [
+          "shipping_enabled",
+          "shipping_fixed_rate",
+          "shipping_free_threshold",
+        ]);
 
       if (error) throw error;
 
@@ -34,7 +41,8 @@ export default function ShippingAdminPage() {
       setSettings({
         shipping_enabled: config.shipping_enabled === "true",
         shipping_fixed_rate: parseFloat(config.shipping_fixed_rate) || 0,
-        shipping_free_threshold: parseFloat(config.shipping_free_threshold) || 0,
+        shipping_free_threshold:
+          parseFloat(config.shipping_free_threshold) || 0,
       });
     } catch (err) {
       console.error("Failed to load shipping settings:", err);
@@ -51,8 +59,14 @@ export default function ShippingAdminPage() {
     try {
       const payload = [
         { key: "shipping_enabled", value: String(settings.shipping_enabled) },
-        { key: "shipping_fixed_rate", value: String(settings.shipping_fixed_rate) },
-        { key: "shipping_free_threshold", value: String(settings.shipping_free_threshold) },
+        {
+          key: "shipping_fixed_rate",
+          value: String(settings.shipping_fixed_rate),
+        },
+        {
+          key: "shipping_free_threshold",
+          value: String(settings.shipping_free_threshold),
+        },
       ];
 
       for (const item of payload) {
@@ -61,10 +75,16 @@ export default function ShippingAdminPage() {
           .upsert({ key: item.key, value: item.value }, { onConflict: "key" });
       }
 
-      setMessage({ type: "success", text: "Shipping settings saved successfully!" });
+      setMessage({
+        type: "success",
+        text: "Shipping settings saved successfully!",
+      });
     } catch (err) {
       console.error("Save error:", err);
-      setMessage({ type: "error", text: "Failed to save settings. Please try again." });
+      setMessage({
+        type: "error",
+        text: "Failed to save settings. Please try again.",
+      });
     } finally {
       setSaving(false);
     }
@@ -73,7 +93,9 @@ export default function ShippingAdminPage() {
   if (loading) {
     return (
       <main className="max-w-4xl mx-auto p-10">
-        <div className="text-center text-gray-500">Loading shipping settings...</div>
+        <div className="text-center text-gray-500">
+          Loading shipping settings...
+        </div>
       </main>
     );
   }
@@ -82,7 +104,8 @@ export default function ShippingAdminPage() {
     <main className="max-w-4xl mx-auto p-10">
       <h1 className="text-3xl font-serif mb-2">Shipping Settings</h1>
       <p className="text-sm text-gray-500 mb-8">
-        Configure shipping rules. Leave disabled for concierge-confirmed shipping.
+        Configure shipping rules. Leave disabled for concierge-confirmed
+        shipping.
       </p>
 
       {message && (
@@ -104,7 +127,9 @@ export default function ShippingAdminPage() {
             type="checkbox"
             id="shipping_enabled"
             checked={settings.shipping_enabled}
-            onChange={(e) => setSettings({ ...settings, shipping_enabled: e.target.checked })}
+            onChange={(e) =>
+              setSettings({ ...settings, shipping_enabled: e.target.checked })
+            }
             className="w-5 h-5 accent-[var(--gold)]"
           />
           <label htmlFor="shipping_enabled" className="font-medium">
@@ -127,11 +152,16 @@ export default function ShippingAdminPage() {
             disabled={!settings.shipping_enabled}
             value={settings.shipping_fixed_rate}
             onChange={(e) =>
-              setSettings({ ...settings, shipping_fixed_rate: parseFloat(e.target.value) || 0 })
+              setSettings({
+                ...settings,
+                shipping_fixed_rate: parseFloat(e.target.value) || 0,
+              })
             }
             className="w-48 border border-gray-300 rounded-lg px-4 py-2 disabled:opacity-50"
           />
-          <p className="text-sm text-gray-400 mt-1">Applied to all orders when enabled.</p>
+          <p className="text-sm text-gray-400 mt-1">
+            Applied to all orders when enabled.
+          </p>
         </div>
 
         {/* Free Shipping Threshold */}
@@ -146,7 +176,10 @@ export default function ShippingAdminPage() {
             disabled={!settings.shipping_enabled}
             value={settings.shipping_free_threshold}
             onChange={(e) =>
-              setSettings({ ...settings, shipping_free_threshold: parseFloat(e.target.value) || 0 })
+              setSettings({
+                ...settings,
+                shipping_free_threshold: parseFloat(e.target.value) || 0,
+              })
             }
             className="w-48 border border-gray-300 rounded-lg px-4 py-2 disabled:opacity-50"
           />

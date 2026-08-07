@@ -28,8 +28,8 @@ export default function BrandShowcase({ brands }: { brands: Brand[] }) {
             Discover Brands
           </h2>
           <p className="mt-3 text-sm text-gray-500 leading-relaxed">
-            Explore internationally trusted brands, carefully curated for authenticity,
-            quality, and a premium shopping experience.
+            Explore internationally trusted brands, carefully curated for
+            authenticity, quality, and a premium shopping experience.
           </p>
         </div>
 

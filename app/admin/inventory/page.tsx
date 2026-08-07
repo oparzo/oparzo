@@ -51,9 +51,7 @@ export default function AdminInventoryPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Inventory
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Inventory</h1>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
@@ -66,10 +64,7 @@ export default function AdminInventoryPage() {
       ) : (
         <div className="space-y-6">
           {products.map((product) => (
-            <div
-              key={product._id}
-              className="rounded-lg border p-5"
-            >
+            <div key={product._id} className="rounded-lg border p-5">
               <div className="mb-3">
                 <h2 className="font-bold">{product.name}</h2>
                 {product.brand && (
@@ -85,8 +80,7 @@ export default function AdminInventoryPage() {
                 <div className="divide-y">
                   {product.variants.map((variant: any) => {
                     const label = formatVariantLabel(variant);
-                    const lowStock =
-                      (variant.stock ?? 0) < LOW_STOCK_THRESHOLD;
+                    const lowStock = (variant.stock ?? 0) < LOW_STOCK_THRESHOLD;
 
                     return (
                       <div

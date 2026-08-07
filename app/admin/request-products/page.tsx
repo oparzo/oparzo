@@ -66,13 +66,9 @@ export default function AdminRequestProductsPage() {
             ADMIN
           </p>
 
-          <h1 className="mt-3 text-4xl font-serif">
-            Request Products
-          </h1>
+          <h1 className="mt-3 text-4xl font-serif">Request Products</h1>
 
-          <p className="mt-3 text-gray-600">
-            Customer sourcing requests.
-          </p>
+          <p className="mt-3 text-gray-600">Customer sourcing requests.</p>
         </div>
 
         <Link href="/admin" className="rounded-xl border px-5 py-3">
@@ -112,9 +108,7 @@ export default function AdminRequestProductsPage() {
                   <td className="p-4">
                     <p>{request.full_name}</p>
                     {request.email && (
-                      <p className="text-sm text-gray-500">
-                        {request.email}
-                      </p>
+                      <p className="text-sm text-gray-500">{request.email}</p>
                     )}
                   </td>
 
@@ -123,9 +117,7 @@ export default function AdminRequestProductsPage() {
                   <td className="p-4">
                     <p>{request.product_name}</p>
                     {request.notes && (
-                      <p className="text-sm text-gray-500">
-                        {request.notes}
-                      </p>
+                      <p className="text-sm text-gray-500">{request.notes}</p>
                     )}
                   </td>
 
@@ -150,9 +142,7 @@ export default function AdminRequestProductsPage() {
                     <select
                       value={request.status}
                       disabled={updatingId === request.id}
-                      onChange={(e) =>
-                        updateStatus(request.id, e.target.value)
-                      }
+                      onChange={(e) => updateStatus(request.id, e.target.value)}
                       className={`rounded-full border-0 px-3 py-1 text-sm ${
                         STATUS_COLORS[request.status] ??
                         "bg-gray-100 text-gray-700"

@@ -85,9 +85,7 @@ export default function ReportsPage() {
           disabled={downloading === "orders"}
           className="rounded-xl bg-black px-6 py-3 text-white"
         >
-          {downloading === "orders"
-            ? "Preparing..."
-            : "Download Orders CSV"}
+          {downloading === "orders" ? "Preparing..." : "Download Orders CSV"}
         </button>
       </div>
 

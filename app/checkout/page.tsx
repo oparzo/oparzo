@@ -35,14 +35,13 @@ export default function CheckoutPage() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [savedAddresses, setSavedAddresses] =
-    useState<SavedAddress[]>([]);
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
 
-  const [selectedAddressId, setSelectedAddressId] =
-    useState<string | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    null
+  );
 
-  const [saveNewAddress, setSaveNewAddress] =
-    useState(false);
+  const [saveNewAddress, setSaveNewAddress] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -80,11 +79,7 @@ export default function CheckoutPage() {
       ...prev,
       name: addr.receiver_name,
       phone: addr.phone,
-      address: [
-        addr.address,
-        addr.area,
-        addr.district,
-      ]
+      address: [addr.address, addr.area, addr.district]
         .filter(Boolean)
         .join(", "),
     }));
@@ -102,22 +97,13 @@ export default function CheckoutPage() {
   }
 
   const totalItems = useMemo(() => {
-    return cart.reduce(
-      (sum: number, item: any) =>
-        sum + item.quantity,
-      0
-    );
+    return cart.reduce((sum: number, item: any) => sum + item.quantity, 0);
   }, [cart]);
 
-  const grandTotal = Math.max(
-    subtotal - discount,
-    0
-  );
+  const grandTotal = Math.max(subtotal - discount, 0);
 
   function handleChange(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     setForm({
       ...form,
@@ -197,7 +183,10 @@ export default function CheckoutPage() {
         clearCart();
         setSuccess(true);
       } else {
-        setOrderError(data.message || "Failed to place order. Please check your information.");
+        setOrderError(
+          data.message ||
+            "Failed to place order. Please check your information."
+        );
       }
     } catch (err) {
       setOrderError("An unexpected error occurred. Please try again.");
@@ -210,9 +199,12 @@ export default function CheckoutPage() {
     return (
       <main className="mx-auto max-w-2xl px-4 py-20 text-center">
         <div className="rounded-2xl bg-[var(--cream)] p-10 shadow-sm">
-          <h1 className="text-4xl font-serif text-[var(--ink)]">Order Confirmed!</h1>
+          <h1 className="text-4xl font-serif text-[var(--ink)]">
+            Order Confirmed!
+          </h1>
           <p className="mt-4 text-gray-600">
-            Thank you for your order. The OPARZO Concierge Team will review and confirm your details shortly.
+            Thank you for your order. The OPARZO Concierge Team will review and
+            confirm your details shortly.
           </p>
           <a
             href="/"
@@ -268,7 +260,9 @@ export default function CheckoutPage() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Shipping Information</h3>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
               <input
                 required
                 name="name"
@@ -279,7 +273,9 @@ export default function CheckoutPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
               <input
                 required
                 name="phone"
@@ -290,7 +286,9 @@ export default function CheckoutPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Email Address
+              </label>
               <input
                 type="email"
                 name="email"
@@ -301,7 +299,9 @@ export default function CheckoutPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Delivery Address</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Delivery Address
+              </label>
               <textarea
                 required
                 name="address"
@@ -334,9 +334,7 @@ export default function CheckoutPage() {
             <div className="flex gap-3">
               <input
                 value={couponCode}
-                onChange={(e) =>
-                  setCouponCode(e.target.value.toUpperCase())
-                }
+                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                 placeholder="Coupon Code"
                 aria-label="Coupon Code"
                 className="flex-1 rounded-lg border p-3"
@@ -373,9 +371,8 @@ export default function CheckoutPage() {
           )}
 
           <p className="text-sm leading-7 text-gray-500">
-            Cash on Delivery — no payment is required today.
-            Your order will be confirmed by the OPARZO
-            Concierge Team before dispatch.
+            Cash on Delivery — no payment is required today. Your order will be
+            confirmed by the OPARZO Concierge Team before dispatch.
           </p>
 
           <button
@@ -410,9 +407,7 @@ export default function CheckoutPage() {
                   </p>
                 </div>
 
-                <div>
-                  {formatCurrency(item.price * item.quantity)}
-                </div>
+                <div>{formatCurrency(item.price * item.quantity)}</div>
               </div>
             ))}
           </div>
@@ -447,10 +442,9 @@ export default function CheckoutPage() {
           </div>
 
           <p className="mt-8 text-sm leading-7 text-gray-500">
-            Final shipping charge, customs duties,
-            and any applicable adjustments will be
-            confirmed by the OPARZO Concierge Team
-            before processing your order.
+            Final shipping charge, customs duties, and any applicable
+            adjustments will be confirmed by the OPARZO Concierge Team before
+            processing your order.
           </p>
         </div>
       </div>

@@ -1,23 +1,18 @@
 export default {
-
   name: "category",
 
   title: "Category",
 
   type: "document",
 
-
   fields: [
-
     {
       name: "name",
 
       title: "Category Name",
 
       type: "string",
-
     },
-
 
     {
       name: "description",
@@ -25,9 +20,7 @@ export default {
       title: "Category Description",
 
       type: "text",
-
     },
-
 
     {
       name: "image",
@@ -35,10 +28,6 @@ export default {
       title: "Category Image",
 
       type: "image",
-
     },
-
-
   ],
-
 };

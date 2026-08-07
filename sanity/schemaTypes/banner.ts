@@ -1,23 +1,18 @@
-import {defineField, defineType} from "sanity";
-
+import { defineField, defineType } from "sanity";
 
 export default defineType({
-
   name: "banner",
 
   title: "Hero Banner",
 
   type: "document",
 
-
   fields: [
-
     defineField({
       name: "title",
       title: "Title",
       type: "string",
     }),
-
 
     defineField({
       name: "subtitle",
@@ -25,13 +20,11 @@ export default defineType({
       type: "text",
     }),
 
-
     defineField({
       name: "image",
       title: "Banner Image",
       type: "image",
     }),
-
 
     defineField({
       name: "buttonText",
@@ -39,13 +32,11 @@ export default defineType({
       type: "string",
     }),
 
-
     defineField({
       name: "buttonLink",
       title: "Button Link",
       type: "string",
     }),
-
 
     defineField({
       name: "active",
@@ -53,7 +44,5 @@ export default defineType({
       type: "boolean",
       initialValue: true,
     }),
-
   ],
-
 });

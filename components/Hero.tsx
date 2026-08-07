@@ -20,7 +20,8 @@ export default function Hero() {
             Thoughtfully Curated Authenticity
           </h1>
           <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm md:text-base text-white/80 max-w-xl">
-            No more guessing if it's real. Authentic global brands, curated for Bangladesh.
+            No more guessing if it's real. Authentic global brands, curated for
+            Bangladesh.
           </p>
           <div className="mt-3 sm:mt-4 flex flex-wrap gap-2 sm:gap-3">
             <Link

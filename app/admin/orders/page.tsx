@@ -69,34 +69,23 @@ export default function AdminOrdersPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Orders
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Orders</h1>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : error ? (
-        <p className="text-gray-500">
-          Couldn't load orders. Try refreshing.
-        </p>
+        <p className="text-gray-500">Couldn't load orders. Try refreshing.</p>
       ) : orders.length === 0 ? (
         <p className="text-gray-500">No orders yet.</p>
       ) : (
         <div className="space-y-5">
           {orders.map((order) => (
-            <div
-              key={order.id}
-              className="border rounded-lg p-6"
-            >
+            <div key={order.id} className="border rounded-lg p-6">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="font-bold">
-                    {order.order_number}
-                  </p>
+                  <p className="font-bold">{order.order_number}</p>
 
-                  <p>
-                    {formatCurrency(order.total)}
-                  </p>
+                  <p>{formatCurrency(order.total)}</p>
 
                   <p className="text-sm text-gray-500">
                     {order.shipping_name || "Guest"}
@@ -107,9 +96,7 @@ export default function AdminOrdersPage() {
                   <select
                     value={order.status}
                     disabled={updatingId === order.id}
-                    onChange={(e) =>
-                      updateStatus(order.id, e.target.value)
-                    }
+                    onChange={(e) => updateStatus(order.id, e.target.value)}
                     className="border p-2"
                   >
                     {STATUSES.map((s) => (

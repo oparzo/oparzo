@@ -43,14 +43,12 @@ export default function RegisterPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl border p-8 shadow-sm">
-        <h1 className="text-3xl font-bold mb-2">
-          Create your Oparzo account
-        </h1>
+        <h1 className="text-3xl font-bold mb-2">Create your Oparzo account</h1>
 
         {sent ? (
           <p className="text-gray-600" role="status">
-            Check your email and click the verification link to finish
-            creating your account.
+            Check your email and click the verification link to finish creating
+            your account.
           </p>
         ) : (
           <>

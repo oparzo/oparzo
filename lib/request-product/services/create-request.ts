@@ -11,9 +11,7 @@ export interface CreateRequestInput {
   notes?: string;
 }
 
-export async function createRequest(
-  input: CreateRequestInput
-) {
+export async function createRequest(input: CreateRequestInput) {
   const { data, error } = await admin
     .from("request_products")
     .insert({

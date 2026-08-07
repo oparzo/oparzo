@@ -56,18 +56,14 @@ export default function WishlistPage() {
     const data = await res.json();
 
     if (data.success) {
-      setItems((prev) =>
-        prev.filter((item) => item.id !== id)
-      );
+      setItems((prev) => prev.filter((item) => item.id !== id));
     }
   }
 
   if (loading) {
     return (
       <main className="max-w-7xl mx-auto px-6 py-20">
-        <h1 className="text-4xl font-serif">
-          Loading...
-        </h1>
+        <h1 className="text-4xl font-serif">Loading...</h1>
       </main>
     );
   }
@@ -79,14 +75,12 @@ export default function WishlistPage() {
           My Account
         </p>
 
-        <h1 className="mt-4 text-4xl font-serif">
-          Wishlist
-        </h1>
+        <h1 className="mt-4 text-4xl font-serif">Wishlist</h1>
 
         <p className="mt-6 text-gray-600">
-          Items you heart while browsing are saved on this device. Log in
-          to keep your wishlist synced across devices — anything you've
-          already saved will carry over automatically.
+          Items you heart while browsing are saved on this device. Log in to
+          keep your wishlist synced across devices — anything you've already
+          saved will carry over automatically.
         </p>
 
         <Link
@@ -101,22 +95,15 @@ export default function WishlistPage() {
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-16">
-
       <p className="text-xs uppercase tracking-[0.35em] text-gray-500">
         My Account
       </p>
 
-      <h1 className="mt-4 text-5xl font-serif">
-        Wishlist
-      </h1><div className="mt-12">
-
+      <h1 className="mt-4 text-5xl font-serif">Wishlist</h1>
+      <div className="mt-12">
         {items.length === 0 ? (
-
           <div className="rounded-2xl border p-12 text-center">
-
-            <h2 className="text-3xl font-serif">
-              Your Wishlist Is Empty
-            </h2>
+            <h2 className="text-3xl font-serif">Your Wishlist Is Empty</h2>
 
             <p className="mt-4 text-gray-600">
               Save your favourite products to purchase later.
@@ -128,20 +115,14 @@ export default function WishlistPage() {
             >
               Explore Products
             </Link>
-
           </div>
-
         ) : (
-
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-
             {items.map((item) => (
-
               <div
                 key={item.id}
                 className="rounded-2xl border bg-[var(--cream)] p-6"
               >
-
                 {item.image && (
                   <img
                     src={item.image}
@@ -158,12 +139,9 @@ export default function WishlistPage() {
                   {item.product_name}
                 </h2>
 
-                <p className="mt-3 text-lg">
-                  {formatCurrency(item.price)}
-                </p>
+                <p className="mt-3 text-lg">{formatCurrency(item.price)}</p>
 
                 <div className="mt-8 flex gap-3">
-
                   <Link
                     href={`/products/${item.slug}`}
                     className="flex-1 rounded-xl bg-[var(--gold)] py-3 text-center text-[var(--ink)]"
@@ -177,17 +155,12 @@ export default function WishlistPage() {
                   >
                     Remove
                   </button>
-
                 </div>
-
               </div>
-
             ))}
-
           </div>
-
         )}
-
-      </div></main>
+      </div>
+    </main>
   );
 }

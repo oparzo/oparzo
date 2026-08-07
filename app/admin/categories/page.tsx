@@ -25,9 +25,7 @@ export default function AdminCategoriesPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Categories
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Categories</h1>
 
       <div className="space-y-4">
         {categories.map((category) => (

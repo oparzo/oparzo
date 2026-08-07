@@ -24,9 +24,7 @@ async function enrichWithProductData(rows: any[]) {
     { ids }
   );
 
-  const productMap = new Map(
-    products.map((p: any) => [p._id, p])
-  );
+  const productMap = new Map(products.map((p: any) => [p._id, p]));
 
   return rows
     .map((row) => {
@@ -157,10 +155,7 @@ export async function DELETE(request: NextRequest) {
       product_id = searchParams.get("product_id");
     }
 
-    let query = supabase
-      .from("wishlist")
-      .delete()
-      .eq("profile_id", user.id);
+    let query = supabase.from("wishlist").delete().eq("profile_id", user.id);
 
     query = id
       ? query.eq("id", id)

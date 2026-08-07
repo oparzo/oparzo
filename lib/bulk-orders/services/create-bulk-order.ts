@@ -16,9 +16,7 @@ export interface CreateBulkOrderInput {
   postal_code: string;
 }
 
-export async function createBulkOrder(
-  input: CreateBulkOrderInput
-) {
+export async function createBulkOrder(input: CreateBulkOrderInput) {
   const { data, error } = await admin
     .from("bulk_orders")
     .insert({

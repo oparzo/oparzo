@@ -74,7 +74,10 @@ export async function POST(request: Request) {
     const { success } = await limiter.limit(ip);
     if (!success) {
       return NextResponse.json(
-        { success: false, message: "Too many requests. Please try again later." },
+        {
+          success: false,
+          message: "Too many requests. Please try again later.",
+        },
         { status: 429 }
       );
     }

@@ -40,22 +40,16 @@ export default function OrderDetailsPage() {
   }
 
   if (loading) {
-    return (
-      <main className="max-w-5xl mx-auto py-20 px-6">
-        Loading...
-      </main>
-    );
+    return <main className="max-w-5xl mx-auto py-20 px-6">Loading...</main>;
   }
 
   if (notFound || !order) {
     return (
       <main className="max-w-5xl mx-auto py-20 px-6">
-        <h1 className="text-3xl font-serif mb-3">
-          Order not found
-        </h1>
+        <h1 className="text-3xl font-serif mb-3">Order not found</h1>
         <p className="text-gray-500">
-          This order doesn't exist, or isn't associated with your
-          account. If you placed it as a guest, use{" "}
+          This order doesn't exist, or isn't associated with your account. If
+          you placed it as a guest, use{" "}
           <a href="/track-order" className="underline">
             Track Order
           </a>{" "}
@@ -67,9 +61,7 @@ export default function OrderDetailsPage() {
 
   return (
     <main className="max-w-5xl mx-auto py-20 px-6">
-      <h1 className="text-5xl font-serif mb-4">
-        {order.order_number}
-      </h1>
+      <h1 className="text-5xl font-serif mb-4">{order.order_number}</h1>
 
       <p className="mb-2">
         <strong>Status:</strong> {order.status}
@@ -81,26 +73,16 @@ export default function OrderDetailsPage() {
 
       {(order.shipping_name || order.shipping_address) && (
         <div className="mb-10 mt-6 border rounded-lg p-5">
-          <h2 className="font-semibold mb-2">
-            Shipping To
-          </h2>
+          <h2 className="font-semibold mb-2">Shipping To</h2>
 
-          {order.shipping_name && (
-            <p>{order.shipping_name}</p>
-          )}
+          {order.shipping_name && <p>{order.shipping_name}</p>}
 
-          {order.shipping_phone && (
-            <p>{order.shipping_phone}</p>
-          )}
+          {order.shipping_phone && <p>{order.shipping_phone}</p>}
 
-          {order.shipping_email && (
-            <p>{order.shipping_email}</p>
-          )}
+          {order.shipping_email && <p>{order.shipping_email}</p>}
 
           {order.shipping_address && (
-            <p className="text-gray-600">
-              {order.shipping_address}
-            </p>
+            <p className="text-gray-600">{order.shipping_address}</p>
           )}
         </div>
       )}
@@ -112,16 +94,12 @@ export default function OrderDetailsPage() {
             className="border rounded-lg p-5 flex justify-between"
           >
             <div>
-              <h3 className="font-semibold">
-                {item.product_name}
-              </h3>
+              <h3 className="font-semibold">{item.product_name}</h3>
 
               <p>Qty: {item.quantity}</p>
             </div>
 
-            <div>
-              {formatCurrency(item.total_price)}
-            </div>
+            <div>{formatCurrency(item.total_price)}</div>
           </div>
         ))}
       </div>

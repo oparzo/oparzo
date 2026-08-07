@@ -5,11 +5,10 @@ export default function AdminBackupPage() {
 
       <div className="rounded-xl border p-6 space-y-4">
         <p className="text-gray-700">
-          Backups are handled by Supabase directly, not by this admin
-          panel — a "Create Backup" button here would either be fake, or
-          would duplicate infrastructure Supabase already runs reliably.
-          Your data lives in a real, managed Postgres instance with its
-          own backup system.
+          Backups are handled by Supabase directly, not by this admin panel — a
+          "Create Backup" button here would either be fake, or would duplicate
+          infrastructure Supabase already runs reliably. Your data lives in a
+          real, managed Postgres instance with its own backup system.
         </p>
 
         <a
@@ -23,17 +22,17 @@ export default function AdminBackupPage() {
 
         <p className="text-sm text-gray-500">
           Daily backups are included on Supabase's paid plans; Point-in-Time
-          Recovery (restore to any second) is available on Pro and above.
-          Worth confirming which tier your project is on.
+          Recovery (restore to any second) is available on Pro and above. Worth
+          confirming which tier your project is on.
         </p>
       </div>
 
       <div className="mt-6 rounded-xl border p-6">
         <h2 className="font-semibold mb-2">Product content (Sanity)</h2>
         <p className="text-gray-700">
-          Product, brand, and category content lives in Sanity, which
-          keeps its own document history independent of Supabase —
-          every edit is versioned automatically.
+          Product, brand, and category content lives in Sanity, which keeps its
+          own document history independent of Supabase — every edit is versioned
+          automatically.
         </p>
       </div>
     </main>

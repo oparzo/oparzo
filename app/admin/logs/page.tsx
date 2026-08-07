@@ -5,10 +5,10 @@ export default function AdminLogsPage() {
 
       <div className="rounded-xl border p-6 space-y-4">
         <p className="text-gray-700">
-          Application and server logs are handled by your hosting and
-          database providers, not stored in this panel — building a
-          custom log viewer here would mean re-implementing tools that
-          already exist and already work.
+          Application and server logs are handled by your hosting and database
+          providers, not stored in this panel — building a custom log viewer
+          here would mean re-implementing tools that already exist and already
+          work.
         </p>
 
         <div className="flex flex-wrap gap-3">
@@ -32,9 +32,9 @@ export default function AdminLogsPage() {
         </div>
 
         <p className="text-sm text-gray-500">
-          Vercel shows request/function logs and errors for the app
-          itself. Supabase's log explorer shows database queries, auth
-          events, and API errors on the Supabase side.
+          Vercel shows request/function logs and errors for the app itself.
+          Supabase's log explorer shows database queries, auth events, and API
+          errors on the Supabase side.
         </p>
       </div>
     </main>

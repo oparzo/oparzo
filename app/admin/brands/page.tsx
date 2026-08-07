@@ -25,9 +25,7 @@ export default function AdminBrandsPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Brands
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Brands</h1>
 
       <div className="space-y-4">
         {brands.map((brand) => (
@@ -37,9 +35,7 @@ export default function AdminBrandsPage() {
           >
             <div>
               <h2 className="font-bold">{brand.name}</h2>
-              <p className="text-gray-500">
-                /brands/{brand.slug?.current}
-              </p>
+              <p className="text-gray-500">/brands/{brand.slug?.current}</p>
             </div>
 
             <Link

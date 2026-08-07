@@ -6,7 +6,10 @@ import { admin } from "@/lib/supabase/admin";
 export async function GET() {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const { data, error } = await admin
@@ -16,7 +19,10 @@ export async function GET() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ success: true, addresses: data });
@@ -26,7 +32,10 @@ export async function GET() {
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const body = await request.json();
@@ -72,7 +81,10 @@ export async function POST(request: Request) {
     .single();
 
   if (error) {
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ success: true, address: data });
@@ -82,14 +94,21 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const body = await request.json();
-  const { id, receiver_name, phone, address, area, district, postal_code } = body;
+  const { id, receiver_name, phone, address, area, district, postal_code } =
+    body;
 
   if (!id) {
-    return NextResponse.json({ success: false, message: "Address ID required" }, { status: 400 });
+    return NextResponse.json(
+      { success: false, message: "Address ID required" },
+      { status: 400 }
+    );
   }
 
   const { data, error } = await admin
@@ -101,7 +120,10 @@ export async function PUT(request: Request) {
     .single();
 
   if (error) {
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ success: true, address: data });
@@ -111,14 +133,20 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
 
   if (!id) {
-    return NextResponse.json({ success: false, message: "Address ID required" }, { status: 400 });
+    return NextResponse.json(
+      { success: false, message: "Address ID required" },
+      { status: 400 }
+    );
   }
 
   const { error } = await admin
@@ -128,7 +156,10 @@ export async function DELETE(request: Request) {
     .eq("profile_id", user.id);
 
   if (error) {
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ success: true });

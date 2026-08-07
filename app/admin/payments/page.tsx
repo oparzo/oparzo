@@ -25,9 +25,7 @@ export default function AdminPaymentsPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-4">
-        Payment Methods
-      </h1>
+      <h1 className="text-5xl font-serif mb-4">Payment Methods</h1>
 
       <p className="mb-10 text-gray-500">
         {loading
@@ -42,9 +40,7 @@ export default function AdminPaymentsPage() {
             className="border rounded-xl p-5 flex justify-between items-center"
           >
             <div>
-              <h2 className="font-semibold">
-                {method.name}
-              </h2>
+              <h2 className="font-semibold">{method.name}</h2>
 
               {method.status === "not_configured" &&
                 method.requiredEnvVars.length > 0 && (

@@ -41,17 +41,13 @@ export default function CustomerReviews() {
 
   if (loading) {
     return (
-      <div className="py-12 text-center text-gray-500">
-        Loading reviews...
-      </div>
+      <div className="py-12 text-center text-gray-500">Loading reviews...</div>
     );
   }
 
   if (error) {
     return (
-      <div className="py-12 text-center text-red-500 text-sm">
-        {error}
-      </div>
+      <div className="py-12 text-center text-red-500 text-sm">{error}</div>
     );
   }
 

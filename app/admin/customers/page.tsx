@@ -21,25 +21,16 @@ export default function AdminCustomersPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Customers
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Customers</h1>
 
       <div className="space-y-4">
         {customers.map((customer) => (
-          <div
-            key={customer.id}
-            className="border rounded-lg p-5"
-          >
-            <h2 className="font-bold">
-              {customer.full_name || "No Name"}
-            </h2>
+          <div key={customer.id} className="border rounded-lg p-5">
+            <h2 className="font-bold">{customer.full_name || "No Name"}</h2>
 
             <p>{customer.email}</p>
 
-            <p className="text-gray-500">
-              {customer.phone}
-            </p>
+            <p className="text-gray-500">{customer.phone}</p>
           </div>
         ))}
       </div>

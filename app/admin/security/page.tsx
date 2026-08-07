@@ -37,14 +37,12 @@ export default function AdminSecurityPage() {
 
   return (
     <main className="max-w-5xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-2">
-        Security & System Status
-      </h1>
+      <h1 className="text-5xl font-serif mb-2">Security & System Status</h1>
 
       <p className="mb-10 text-gray-500">
-        Real status, not a decorative checklist — integration checks are
-        live; security items are a maintained log of what's actually been
-        implemented, checked directly against the codebase.
+        Real status, not a decorative checklist — integration checks are live;
+        security items are a maintained log of what's actually been implemented,
+        checked directly against the codebase.
       </p>
 
       {loading ? (
@@ -76,9 +74,7 @@ export default function AdminSecurityPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
-              Security Measures
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">Security Measures</h2>
 
             <div className="space-y-3">
               {data?.security.map((s: any) => (

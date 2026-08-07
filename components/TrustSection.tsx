@@ -12,7 +12,8 @@ export default function TrustSection() {
           </h2>
 
           <p className="mt-6 max-w-2xl text-base leading-7 text-white/70 md:text-lg md:leading-8">
-            We hand-pick every brand, verify every product, and deliver it exactly as promised — no compromises, no counterfeits.
+            We hand-pick every brand, verify every product, and deliver it
+            exactly as promised — no compromises, no counterfeits.
           </p>
         </div>
 
@@ -21,7 +22,8 @@ export default function TrustSection() {
           <article className="border-t border-white/15 pt-6">
             <h3 className="font-serif text-2xl">Authenticity</h3>
             <p className="mt-4 text-sm leading-7 text-white/70 md:text-base">
-              100% verified. Every product checked before it reaches you — guaranteed genuine, guaranteed OPARZO.
+              100% verified. Every product checked before it reaches you —
+              guaranteed genuine, guaranteed OPARZO.
             </p>
           </article>
 
@@ -29,7 +31,8 @@ export default function TrustSection() {
           <article className="border-t border-white/15 pt-6">
             <h3 className="font-serif text-2xl">Global Access</h3>
             <p className="mt-4 text-sm leading-7 text-white/70 md:text-base">
-              The world's best brands, finally in Bangladesh — no middlemen, no guesswork.
+              The world's best brands, finally in Bangladesh — no middlemen, no
+              guesswork.
             </p>
           </article>
 
@@ -37,7 +40,8 @@ export default function TrustSection() {
           <article className="border-t border-white/15 pt-6">
             <h3 className="font-serif text-2xl">Customer Support</h3>
             <p className="mt-4 text-sm leading-7 text-white/70 md:text-base">
-              Real people, real help — before you order and long after it arrives.
+              Real people, real help — before you order and long after it
+              arrives.
             </p>
           </article>
         </div>

@@ -6,7 +6,6 @@ export default {
   type: "document",
 
   fields: [
-
     {
       name: "name",
       title: "Product Name",
@@ -42,7 +41,5 @@ export default {
       title: "Product Image",
       type: "image",
     },
-
   ],
-
 };

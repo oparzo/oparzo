@@ -26,9 +26,7 @@ export default function AdminSearchPage() {
 
   return (
     <main className="max-w-6xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-8">
-        Product Search
-      </h1>
+      <h1 className="text-5xl font-serif mb-8">Product Search</h1>
 
       <div className="flex gap-4 mb-10">
         <input
@@ -38,20 +36,14 @@ export default function AdminSearchPage() {
           className="border flex-1 p-3 rounded"
         />
 
-        <button
-          onClick={search}
-          className="bg-black text-white px-8 rounded"
-        >
+        <button onClick={search} className="bg-black text-white px-8 rounded">
           Search
         </button>
       </div>
 
       <div className="space-y-4">
         {results.map((item) => (
-          <div
-            key={item._id}
-            className="border rounded-lg p-5"
-          >
+          <div key={item._id} className="border rounded-lg p-5">
             <h2 className="font-bold">{item.name}</h2>
 
             <p>{item.brand}</p>

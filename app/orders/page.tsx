@@ -54,14 +54,11 @@ export default function OrdersPage() {
   return (
     <main className="min-h-screen bg-[var(--cream)]">
       <div className="mx-auto max-w-6xl px-6 py-16">
-
         <p className="mb-3 text-sm uppercase tracking-[0.35em] text-gray-500">
           Account
         </p>
 
-        <h1 className="font-serif text-5xl">
-          My Orders
-        </h1>
+        <h1 className="font-serif text-5xl">My Orders</h1>
 
         <p className="mt-4 text-gray-600">
           View your order history and track every purchase.
@@ -69,9 +66,7 @@ export default function OrdersPage() {
 
         {orders.length === 0 ? (
           <div className="mt-12 rounded-2xl border bg-[var(--cream)] p-12 text-center">
-            <h2 className="font-serif text-3xl">
-              No Orders Yet
-            </h2>
+            <h2 className="font-serif text-3xl">No Orders Yet</h2>
 
             <p className="mt-4 text-gray-600">
               Your orders will appear here after your first purchase.
@@ -86,7 +81,6 @@ export default function OrdersPage() {
           </div>
         ) : (
           <div className="mt-12 space-y-6">
-
             {orders.map((order) => (
               <Link
                 key={order.id}
@@ -94,7 +88,6 @@ export default function OrdersPage() {
                 className="block rounded-2xl border bg-[var(--cream)] p-6 transition hover:border-[var(--ink)] hover:shadow-sm"
               >
                 <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-
                   <div>
                     <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
                       Order Number
@@ -128,18 +121,13 @@ export default function OrdersPage() {
                       {formatCurrency(order.total)}
                     </p>
 
-                    <p className="mt-3 text-sm font-medium">
-                      View Details →
-                    </p>
+                    <p className="mt-3 text-sm font-medium">View Details →</p>
                   </div>
-
                 </div>
               </Link>
             ))}
-
           </div>
         )}
-
       </div>
     </main>
   );

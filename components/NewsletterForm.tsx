@@ -8,7 +8,9 @@ interface NewsletterFormProps {
 
 export default function NewsletterForm({ slim }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,7 +61,9 @@ export default function NewsletterForm({ slim }: NewsletterFormProps) {
           </button>
         </form>
         {message && (
-          <p className={`mt-1 text-[10px] ${status === "success" ? "text-green-400" : "text-red-400"}`}>
+          <p
+            className={`mt-1 text-[10px] ${status === "success" ? "text-green-400" : "text-red-400"}`}
+          >
             {message}
           </p>
         )}
@@ -86,7 +90,9 @@ export default function NewsletterForm({ slim }: NewsletterFormProps) {
         {status === "loading" ? "Subscribing..." : "JOIN"}
       </button>
       {message && (
-        <p className={`text-xs ${status === "success" ? "text-green-400" : "text-red-400"}`}>
+        <p
+          className={`text-xs ${status === "success" ? "text-green-400" : "text-red-400"}`}
+        >
           {message}
         </p>
       )}

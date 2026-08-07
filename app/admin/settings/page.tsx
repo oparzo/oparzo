@@ -80,15 +80,13 @@ export default function AdminSettingsPage() {
     <main className="max-w-4xl mx-auto p-10">
       <h1 className="text-5xl font-serif mb-2">Settings</h1>
       <p className="mb-10 text-gray-500">
-        Controls what customers see across the storefront — contact info,
-        the announcement bar, and maintenance mode.
+        Controls what customers see across the storefront — contact info, the
+        announcement bar, and maintenance mode.
       </p>
 
       <div className="space-y-10">
         <section className="border rounded-xl p-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            Contact Information
-          </h2>
+          <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
           <p className="mb-5 text-sm text-gray-500">
             Shown in the site footer.
           </p>
@@ -128,17 +126,13 @@ export default function AdminSettingsPage() {
         </section>
 
         <section className="border rounded-xl p-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            Announcement Bar
-          </h2>
+          <h2 className="text-2xl font-semibold mb-4">Announcement Bar</h2>
 
           <label className="mb-4 flex items-center gap-3">
             <input
               type="checkbox"
               checked={!!settings.announcement_enabled}
-              onChange={(e) =>
-                update("announcement_enabled", e.target.checked)
-              }
+              onChange={(e) => update("announcement_enabled", e.target.checked)}
             />
             Show announcement bar site-wide
           </label>
@@ -157,11 +151,10 @@ export default function AdminSettingsPage() {
           </h2>
 
           <p className="mb-4 text-sm text-gray-500">
-            Internal reference only — checkout intentionally doesn't
-            quote a fixed shipping rate ("Calculated Later, confirmed
-            by the Concierge Team"), since sourcing costs vary per
-            order. Use this for your own notes on typical rates/ETAs,
-            not a customer-facing price list.
+            Internal reference only — checkout intentionally doesn't quote a
+            fixed shipping rate ("Calculated Later, confirmed by the Concierge
+            Team"), since sourcing costs vary per order. Use this for your own
+            notes on typical rates/ETAs, not a customer-facing price list.
           </p>
 
           <textarea
@@ -173,9 +166,7 @@ export default function AdminSettingsPage() {
         </section>
 
         <section className="border rounded-xl p-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            Maintenance Mode
-          </h2>
+          <h2 className="text-2xl font-semibold mb-4">Maintenance Mode</h2>
 
           <label className="flex items-center gap-3">
             <input
@@ -187,9 +178,9 @@ export default function AdminSettingsPage() {
           </label>
 
           <p className="mt-2 text-sm text-gray-500">
-            Not yet enforced anywhere — flip this on and it'll be stored,
-            but nothing reads it to actually block the site yet. Wiring
-            it into the root layout is a follow-up if you want it.
+            Not yet enforced anywhere — flip this on and it'll be stored, but
+            nothing reads it to actually block the site yet. Wiring it into the
+            root layout is a follow-up if you want it.
           </p>
         </section>
 
@@ -201,9 +192,7 @@ export default function AdminSettingsPage() {
           {saving ? "Saving..." : "Save Settings"}
         </button>
 
-        {savedAt && (
-          <p className="text-sm text-green-600">Saved.</p>
-        )}
+        {savedAt && <p className="text-sm text-green-600">Saved.</p>}
       </div>
     </main>
   );

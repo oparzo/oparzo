@@ -47,8 +47,8 @@ export async function GET(
       error?.message === "Forbidden"
         ? 403
         : error?.message === "Unauthorized"
-        ? 401
-        : 500;
+          ? 401
+          : 500;
 
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed" },
@@ -93,8 +93,8 @@ export async function PATCH(
       error?.message === "Forbidden"
         ? 403
         : error?.message === "Unauthorized"
-        ? 401
-        : 500;
+          ? 401
+          : 500;
 
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed" },

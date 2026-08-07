@@ -3,9 +3,7 @@ import Link from "next/link";
 const sections = [
   {
     title: "Dashboard",
-    items: [
-      { name: "Dashboard", href: "/admin/dashboard" },
-    ],
+    items: [{ name: "Dashboard", href: "/admin/dashboard" }],
   },
 
   {
@@ -74,20 +72,17 @@ const sections = [
 export default function AdminSidebar() {
   return (
     <aside className="w-72 min-h-screen border-r bg-white px-6 py-8">
-
       <h1 className="text-3xl font-serif mb-10">
         OPAR<span className="text-yellow-600">ZO</span>
       </h1>
 
       {sections.map((section) => (
         <div key={section.title} className="mb-8">
-
           <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gray-500">
             {section.title}
           </p>
 
           <div className="space-y-2">
-
             {section.items.map((item) => (
               <Link
                 key={item.href}
@@ -97,13 +92,9 @@ export default function AdminSidebar() {
                 {item.name}
               </Link>
             ))}
-
           </div>
-
         </div>
       ))}
-
     </aside>
   );
 }
-

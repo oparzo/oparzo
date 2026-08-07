@@ -25,7 +25,10 @@ export default async function proxy(req: NextRequest) {
 
   try {
     // ✅ getUser() – verifies JWT server-side
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
     const protectedRoutes = ["/account", "/profile", "/checkout", "/admin"];
     const isProtected = protectedRoutes.some((route) =>
@@ -67,5 +70,10 @@ export default async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/account/:path*", "/profile/:path*", "/checkout/:path*", "/admin/:path*"],
+  matcher: [
+    "/account/:path*",
+    "/profile/:path*",
+    "/checkout/:path*",
+    "/admin/:path*",
+  ],
 };

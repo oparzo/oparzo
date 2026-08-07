@@ -51,9 +51,7 @@ export default function AddressesPage() {
   }
 
   function handleChange(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     setForm({
       ...form,
@@ -61,9 +59,7 @@ export default function AddressesPage() {
     });
   }
 
-  async function saveAddress(
-    e: React.FormEvent
-  ) {
+  async function saveAddress(e: React.FormEvent) {
     e.preventDefault();
 
     setLoading(true);
@@ -109,9 +105,7 @@ export default function AddressesPage() {
           My Account
         </p>
 
-        <h1 className="mt-4 text-4xl font-serif">
-          Delivery Addresses
-        </h1>
+        <h1 className="mt-4 text-4xl font-serif">Delivery Addresses</h1>
 
         <p className="mt-6 text-neutral-600">
           Log in to save and manage your delivery addresses.
@@ -129,22 +123,14 @@ export default function AddressesPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-16">
-
       <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">
         My Account
       </p>
 
-      <h1 className="mt-4 text-5xl font-serif">
-        Delivery Addresses
-      </h1>
+      <h1 className="mt-4 text-5xl font-serif">Delivery Addresses</h1>
 
       <div className="grid lg:grid-cols-2 gap-12 mt-14">
-
-        <form
-          onSubmit={saveAddress}
-          className="space-y-5"
-        >
-
+        <form onSubmit={saveAddress} className="space-y-5">
           <input
             name="receiver_name"
             value={form.receiver_name}
@@ -174,7 +160,7 @@ export default function AddressesPage() {
             className="w-full border rounded-xl p-4"
             required
           />
-<input
+          <input
             name="area"
             value={form.area}
             onChange={handleChange}
@@ -210,64 +196,40 @@ export default function AddressesPage() {
           >
             {loading ? "Saving..." : "Save Address"}
           </button>
-
         </form>
 
         <div>
-
-          <h2 className="text-2xl font-serif mb-6">
-            Saved Addresses
-          </h2>
+          <h2 className="text-2xl font-serif mb-6">Saved Addresses</h2>
 
           {addresses.length === 0 ? (
-
             <div className="rounded-2xl border p-8 text-neutral-500">
               No saved address yet.
             </div>
-
           ) : (
-
             <div className="space-y-5">
-
               {addresses.map((item) => (
-
-                <div
-                  key={item.id}
-                  className="rounded-2xl border p-6"
-                >
-
+                <div key={item.id} className="rounded-2xl border p-6">
                   <h3 className="text-xl font-semibold">
                     {item.receiver_name}
                   </h3>
 
-                  <p className="mt-2">
-                    {item.phone}
-                  </p>
+                  <p className="mt-2">{item.phone}</p>
 
                   <p className="mt-2">
                     {item.area}, {item.district}
                   </p>
 
-                  <p className="mt-2">
-                    {item.address}
-                  </p>
+                  <p className="mt-2">{item.address}</p>
 
                   {item.postal_code && (
-                    <p className="mt-2">
-                      Postal Code: {item.postal_code}
-                    </p>
+                    <p className="mt-2">Postal Code: {item.postal_code}</p>
                   )}
-
                 </div>
-
               ))}
-
             </div>
-
           )}
-
-        </div></div>
-
+        </div>
+      </div>
     </main>
   );
 }

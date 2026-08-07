@@ -83,9 +83,7 @@ export default function AdminOrderDetailPage() {
   if (notFound || !order) {
     return (
       <main className="max-w-5xl mx-auto p-10">
-        <h1 className="text-3xl font-serif mb-4">
-          Order not found
-        </h1>
+        <h1 className="text-3xl font-serif mb-4">Order not found</h1>
         <Link href="/admin/orders" className="underline">
           Back to Orders
         </Link>
@@ -101,9 +99,7 @@ export default function AdminOrderDetailPage() {
 
       <div className="mt-6 flex items-start justify-between">
         <div>
-          <h1 className="text-4xl font-serif">
-            {order.order_number}
-          </h1>
+          <h1 className="text-4xl font-serif">{order.order_number}</h1>
           <p className="mt-2 text-gray-500">
             {new Date(order.created_at).toLocaleString()}
           </p>
@@ -177,18 +173,13 @@ export default function AdminOrderDetailPage() {
         ) : (
           <div className="space-y-3">
             {items.map((item) => (
-              <div
-                key={item.id}
-                className="flex justify-between border-b pb-3"
-              >
+              <div key={item.id} className="flex justify-between border-b pb-3">
                 <div>
                   <p>{item.product_name}</p>
                   {item.variant && (
                     <p className="text-sm text-gray-500">{item.variant}</p>
                   )}
-                  <p className="text-sm text-gray-500">
-                    Qty: {item.quantity}
-                  </p>
+                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
 
                 <p>{formatCurrency(item.total_price)}</p>

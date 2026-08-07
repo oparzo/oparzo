@@ -20,7 +20,11 @@ export async function getShippingFee({
     const { data: settings, error } = await admin
       .from("site_settings")
       .select("key, value")
-      .in("key", ["shipping_enabled", "shipping_fixed_rate", "shipping_free_threshold"])
+      .in("key", [
+        "shipping_enabled",
+        "shipping_fixed_rate",
+        "shipping_free_threshold",
+      ])
       .limit(3);
 
     if (error || !settings) {

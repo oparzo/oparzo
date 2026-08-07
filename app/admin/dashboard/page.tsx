@@ -11,7 +11,12 @@ type Dashboard = {
   totalRevenue: number;
   pendingOrders: number;
   pendingRequests: number;
-  lowStockProducts: { _id: string; name: string; slug: string; lowestStock: number }[];
+  lowStockProducts: {
+    _id: string;
+    name: string;
+    slug: string;
+    lowestStock: number;
+  }[];
 };
 
 const EMPTY: Dashboard = {
@@ -54,9 +59,7 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <main className="max-w-7xl mx-auto px-6 py-20">
-        <h1 className="text-4xl font-serif">
-          Loading Dashboard...
-        </h1>
+        <h1 className="text-4xl font-serif">Loading Dashboard...</h1>
       </main>
     );
   }
@@ -79,23 +82,17 @@ export default function AdminDashboardPage() {
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-16">
+      <p className="text-xs uppercase tracking-[0.35em] text-gray-500">Admin</p>
 
-      <p className="text-xs uppercase tracking-[0.35em] text-gray-500">
-        Admin
-      </p>
+      <h1 className="mt-4 text-5xl font-serif">Dashboard</h1>
 
-      <h1 className="mt-4 text-5xl font-serif">
-        Dashboard
-      </h1>
-
-      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4"><div className="rounded-2xl border bg-white p-6">
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-2xl border bg-white p-6">
           <p className="text-sm uppercase tracking-[0.3em] text-gray-500">
             Orders
           </p>
 
-          <h2 className="mt-4 text-4xl font-serif">
-            {stats.totalOrders}
-          </h2>
+          <h2 className="mt-4 text-4xl font-serif">{stats.totalOrders}</h2>
         </div>
 
         <div className="rounded-2xl border bg-white p-6">
@@ -103,9 +100,7 @@ export default function AdminDashboardPage() {
             Customers
           </p>
 
-          <h2 className="mt-4 text-4xl font-serif">
-            {stats.totalCustomers}
-          </h2>
+          <h2 className="mt-4 text-4xl font-serif">{stats.totalCustomers}</h2>
         </div>
 
         <div className="rounded-2xl border bg-white p-6">
@@ -113,9 +108,7 @@ export default function AdminDashboardPage() {
             Products
           </p>
 
-          <h2 className="mt-4 text-4xl font-serif">
-            {stats.totalProducts}
-          </h2>
+          <h2 className="mt-4 text-4xl font-serif">{stats.totalProducts}</h2>
         </div>
 
         <div className="rounded-2xl border bg-white p-6">
@@ -127,13 +120,10 @@ export default function AdminDashboardPage() {
             {formatCurrency(stats.totalRevenue)}
           </h2>
         </div>
-
       </div>
 
       <div className="mt-12 rounded-2xl border bg-white p-8">
-        <h2 className="text-2xl font-serif">
-          Needs Attention
-        </h2>
+        <h2 className="text-2xl font-serif">Needs Attention</h2>
 
         {!hasAlerts ? (
           <p className="mt-4 text-gray-500">
@@ -171,8 +161,7 @@ export default function AdminDashboardPage() {
               <div className="rounded-xl border p-4">
                 <p className="mb-3">
                   {stats.lowStockProducts.length} product
-                  {stats.lowStockProducts.length === 1 ? "" : "s"} low in
-                  stock
+                  {stats.lowStockProducts.length === 1 ? "" : "s"} low in stock
                 </p>
 
                 <div className="space-y-2">

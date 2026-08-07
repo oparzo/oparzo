@@ -1,23 +1,18 @@
 export default {
-
   name: "brand",
 
   title: "Brand",
 
   type: "document",
 
-
   fields: [
-
     {
       name: "name",
 
       title: "Brand Name",
 
       type: "string",
-
     },
-
 
     {
       name: "description",
@@ -25,9 +20,7 @@ export default {
       title: "Brand Description",
 
       type: "text",
-
     },
-
 
     {
       name: "category",
@@ -35,9 +28,7 @@ export default {
       title: "Category",
 
       type: "string",
-
     },
-
 
     {
       name: "logo",
@@ -45,10 +36,6 @@ export default {
       title: "Brand Logo",
 
       type: "image",
-
     },
-
-
   ],
-
 };

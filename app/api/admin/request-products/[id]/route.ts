@@ -2,12 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/auth";
 import { admin } from "@/lib/supabase/admin";
 
-const ALLOWED_STATUSES = [
-  "Pending",
-  "Reviewing",
-  "Sourced",
-  "Declined",
-];
+const ALLOWED_STATUSES = ["Pending", "Reviewing", "Sourced", "Declined"];
 
 export async function PATCH(
   request: NextRequest,
@@ -45,8 +40,8 @@ export async function PATCH(
       error?.message === "Forbidden"
         ? 403
         : error?.message === "Unauthorized"
-        ? 401
-        : 500;
+          ? 401
+          : 500;
 
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed" },

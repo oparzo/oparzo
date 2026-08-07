@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 
 const WishlistContext = createContext<any>(null);
@@ -16,11 +10,7 @@ const WishlistContext = createContext<any>(null);
 // /api/wishlist, so it's no longer disconnected from the /wishlist page.
 // On login, any guest-saved items are pushed to the database once.
 
-export function WishlistProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [ready, setReady] = useState(false);

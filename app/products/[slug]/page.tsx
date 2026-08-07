@@ -5,7 +5,7 @@ import RelatedProducts from "@/components/RelatedProducts";
 import { notFound } from "next/navigation";
 
 // ✅ পেজটি সম্পূর্ণ ডায়নামিক – কখনো প্রি-রেন্ডার হবে না
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const dynamicParams = false; // অজানা প্যারামিটারের জন্য 404
 
 // ❌ generateStaticParams সম্পূর্ণ সরানো হয়েছে

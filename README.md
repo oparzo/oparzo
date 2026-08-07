@@ -1,10 +1,12 @@
 # OPARZO – Global Luxury Marketplace
 
 ## Vision
+
 Connecting discerning buyers with the world's most prestigious brands.  
 Authentic products, curated for Bangladesh.
 
 ## Tech Stack
+
 - **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS 4
@@ -24,3 +26,4 @@ npm install
 
 # Run development server
 npm run dev
+```

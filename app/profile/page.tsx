@@ -50,18 +50,14 @@ export default function ProfilePage() {
     }
   }
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setProfile({
       ...profile,
       [e.target.name]: e.target.value,
     });
   }
 
-  async function saveProfile(
-    e: React.FormEvent
-  ) {
+  async function saveProfile(e: React.FormEvent) {
     e.preventDefault();
 
     setSaving(true);
@@ -99,9 +95,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <main className="max-w-6xl mx-auto px-6 py-20">
-        <h1 className="text-4xl font-serif">
-          Loading...
-        </h1>
+        <h1 className="text-4xl font-serif">Loading...</h1>
       </main>
     );
   }
@@ -131,20 +125,13 @@ export default function ProfilePage() {
 
   return (
     <main className="max-w-5xl mx-auto px-6 py-16">
-
       <p className="text-xs uppercase tracking-[0.35em] text-gray-500">
         My Account
       </p>
 
-      <h1 className="mt-4 text-5xl font-serif">
-        Profile
-      </h1>
+      <h1 className="mt-4 text-5xl font-serif">Profile</h1>
 
-      <form
-        onSubmit={saveProfile}
-        className="mt-12 space-y-6"
-      >
-
+      <form onSubmit={saveProfile} className="mt-12 space-y-6">
         <input
           required
           name="full_name"
@@ -175,13 +162,9 @@ export default function ProfilePage() {
         />
 
         <div className="rounded-2xl bg-[var(--cream)] p-6">
-
-          <h2 className="text-2xl font-serif">
-            Account Information
-          </h2>
+          <h2 className="text-2xl font-serif">Account Information</h2>
 
           <div className="mt-6 space-y-3 text-gray-600">
-
             <div className="flex justify-between border-b pb-3">
               <span>Name</span>
               <span>{profile.full_name || "-"}</span>
@@ -196,9 +179,7 @@ export default function ProfilePage() {
               <span>Email</span>
               <span>{profile.email || "-"}</span>
             </div>
-
           </div>
-
         </div>
 
         {message && (
@@ -217,11 +198,8 @@ export default function ProfilePage() {
           disabled={saving}
           className="w-full rounded-xl bg-[var(--gold)] py-4 text-[var(--ink)] transition disabled:opacity-50"
         >
-          {saving
-            ? "Saving..."
-            : "Update Profile"}
+          {saving ? "Saving..." : "Update Profile"}
         </button>
-
       </form>
     </main>
   );

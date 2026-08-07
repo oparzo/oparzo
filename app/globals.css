@@ -8,45 +8,51 @@
   --radius-lg: 4px;
   --radius-xl: 4px;
   --radius-2xl: 4px;
-  --color-ink:     #161513;
-  --color-cream:   #FAF8F3;
-  --color-stone:   #F1EEE7;
-  --color-gold:    #AD8A45;
+  --color-ink: #161513;
+  --color-cream: #faf8f3;
+  --color-stone: #f1eee7;
+  --color-gold: #ad8a45;
 }
 
 :root {
-  --ink:    #161513;
-  --cream:  #FAF8F3;
-  --stone:  #F1EEE7;
-  --gold:   #AD8A45;
-  --background: #FAF8F3;
+  --ink: #161513;
+  --cream: #faf8f3;
+  --stone: #f1eee7;
+  --gold: #ad8a45;
+  --background: #faf8f3;
   --foreground: #161513;
 
   /* ফন্ট সাইজ – ১০% ছোট করা হলো */
-  --fs-body:   clamp(0.85rem, 0.82rem + 0.1vw, 0.9rem);
-  --fs-h1:     clamp(1.6rem, 1.1rem + 2.4vw, 2.5rem);
-  --fs-h2:     clamp(1.25rem, 0.95rem + 1.5vw, 1.8rem);
-  --fs-h3:     clamp(0.9rem, 0.8rem + 0.55vw, 1.1rem);
-  --fs-price:  clamp(0.95rem, 0.8rem + 0.7vw, 1.2rem);
+  --fs-body: clamp(0.85rem, 0.82rem + 0.1vw, 0.9rem);
+  --fs-h1: clamp(1.6rem, 1.1rem + 2.4vw, 2.5rem);
+  --fs-h2: clamp(1.25rem, 0.95rem + 1.5vw, 1.8rem);
+  --fs-h3: clamp(0.9rem, 0.8rem + 0.55vw, 1.1rem);
+  --fs-price: clamp(0.95rem, 0.8rem + 0.7vw, 1.2rem);
   --fs-button: clamp(0.78rem, 0.75rem + 0.1vw, 0.85rem);
-  --fs-small:  clamp(0.68rem, 0.65rem + 0.1vw, 0.75rem);
-  --fs-tiny:   clamp(0.58rem, 0.55rem + 0.1vw, 0.65rem);
+  --fs-small: clamp(0.68rem, 0.65rem + 0.1vw, 0.75rem);
+  --fs-tiny: clamp(0.58rem, 0.55rem + 0.1vw, 0.65rem);
 
-  --space-1:  6px;
-  --space-2:  12px;
-  --space-3:  18px;
-  --space-4:  24px;
-  --space-5:  32px;
-  --space-6:  40px;
-  --space-8:  48px;
+  --space-1: 6px;
+  --space-2: 12px;
+  --space-3: 18px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 40px;
+  --space-8: 48px;
   --space-10: 60px;
   --space-12: 72px;
   --space-16: 96px;
   --space-20: 120px;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
 body {
   background: var(--cream);
   color: var(--ink);
@@ -54,13 +60,22 @@ body {
   font-size: var(--fs-body);
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 400;
 }
-img { display: block; }
-button { cursor: pointer; }
-a { transition: color 0.25s ease; }
+img {
+  display: block;
+}
+button {
+  cursor: pointer;
+}
+a {
+  transition: color 0.25s ease;
+}
 
 :focus-visible {
   outline: 2px solid var(--gold);
@@ -68,12 +83,12 @@ a { transition: color 0.25s ease; }
 }
 
 .section-padding {
-  padding-top:    var(--space-10);
+  padding-top: var(--space-10);
   padding-bottom: var(--space-10);
 }
 @media (min-width: 1024px) {
   .section-padding {
-    padding-top:    var(--space-12);
+    padding-top: var(--space-12);
     padding-bottom: var(--space-12);
   }
 }
@@ -82,12 +97,12 @@ a { transition: color 0.25s ease; }
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
-  padding-left:  var(--space-3);
+  padding-left: var(--space-3);
   padding-right: var(--space-3);
 }
 @media (min-width: 1024px) {
   .container-oparzo {
-    padding-left:  var(--space-6);
+    padding-left: var(--space-6);
     padding-right: var(--space-6);
   }
 }
@@ -99,7 +114,7 @@ a { transition: color 0.25s ease; }
   padding-right: 20px;
 }
 .section {
-  padding-top:    96px;
+  padding-top: 96px;
   padding-bottom: 96px;
 }
 
@@ -118,8 +133,13 @@ a { transition: color 0.25s ease; }
   border: none;
   transition: opacity 0.25s ease;
 }
-.btn-primary:hover  { opacity: 0.85; }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary:hover {
+  opacity: 0.85;
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 .btn-secondary {
   display: inline-flex;
@@ -134,7 +154,9 @@ a { transition: color 0.25s ease; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
   border: 1px solid var(--ink);
-  transition: background 0.25s ease, color 0.25s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
 }
 .btn-secondary:hover {
   background: var(--ink);

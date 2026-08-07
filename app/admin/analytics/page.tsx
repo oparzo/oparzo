@@ -56,9 +56,7 @@ export default function AdminAnalyticsPage() {
   return (
     <main className="max-w-7xl mx-auto p-10">
       <h1 className="text-5xl font-serif mb-2">Analytics</h1>
-      <p className="mb-10 text-gray-500">
-        Last {data.windowDays} days.
-      </p>
+      <p className="mb-10 text-gray-500">Last {data.windowDays} days.</p>
 
       <div className="grid md:grid-cols-3 gap-6 mb-10">
         <div className="border rounded-xl p-8">
@@ -144,9 +142,7 @@ export default function AdminAnalyticsPage() {
         <div className="flex gap-10">
           <div>
             <p className="text-gray-500">Redemptions</p>
-            <p className="text-2xl font-bold">
-              {data.couponStats.redemptions}
-            </p>
+            <p className="text-2xl font-bold">{data.couponStats.redemptions}</p>
           </div>
 
           <div>

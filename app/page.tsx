@@ -1,8 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import {
-  productsQuery,
-  brandQuery,
-} from "@/sanity/lib/queries";
+import { productsQuery, brandQuery } from "@/sanity/lib/queries";
 import Hero from "@/components/Hero";
 import Categories from "@/components/Categories";
 import BrandShowcase from "@/components/BrandShowcase";

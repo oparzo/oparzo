@@ -46,7 +46,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: "No matching order found. Check your order number and phone number.",
+        error:
+          "No matching order found. Check your order number and phone number.",
       },
       { status: 404 }
     );

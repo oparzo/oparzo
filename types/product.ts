@@ -40,9 +40,9 @@ export interface Product {
 
 export interface Variant {
   _key?: string;
-  volume?: string;      // ml, oz
-  weight?: string;      // gm
-  size?: string;        // S, M, L
+  volume?: string; // ml, oz
+  weight?: string; // gm
+  size?: string; // S, M, L
   color?: string;
   shade?: string;
   price: number;

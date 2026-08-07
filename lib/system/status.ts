@@ -13,9 +13,7 @@ export function getIntegrationStatus() {
     },
     {
       name: "Supabase (service role)",
-      status: process.env.SUPABASE_SERVICE_ROLE_KEY
-        ? "connected"
-        : "missing",
+      status: process.env.SUPABASE_SERVICE_ROLE_KEY ? "connected" : "missing",
       detail: "Used by admin APIs and order creation to bypass RLS safely.",
     },
     {
@@ -47,7 +45,8 @@ export function getSecurityChecklist() {
     {
       item: "Admin routes gated by session + role check",
       status: "done",
-      detail: "proxy.ts checks profiles.role = 'admin' for /admin/* and /api/admin/*.",
+      detail:
+        "proxy.ts checks profiles.role = 'admin' for /admin/* and /api/admin/*.",
     },
     {
       item: "Admin API routes double-checked server-side",
@@ -57,22 +56,26 @@ export function getSecurityChecklist() {
     {
       item: "Order creation can't be spoofed to another account",
       status: "done",
-      detail: "profile_id is derived from the session server-side, never trusted from the request body.",
+      detail:
+        "profile_id is derived from the session server-side, never trusted from the request body.",
     },
     {
       item: "Coupon discounts re-validated server-side",
       status: "done",
-      detail: "Active/expiry/usage-limit re-checked and discount recomputed at order time, not trusted from the client.",
+      detail:
+        "Active/expiry/usage-limit re-checked and discount recomputed at order time, not trusted from the client.",
     },
     {
       item: "Coupon writes restricted to admins (RLS)",
       status: "verify",
-      detail: "Migration 008 fixes this — confirm it's actually applied to the live database.",
+      detail:
+        "Migration 008 fixes this — confirm it's actually applied to the live database.",
     },
     {
       item: "RLS policies on profiles/addresses/orders/order_items/wishlist/cart_items",
       status: "verify",
-      detail: "Enabled per earlier session notes, but not version-controlled — see supabase/SCHEMA.md.",
+      detail:
+        "Enabled per earlier session notes, but not version-controlled — see supabase/SCHEMA.md.",
     },
     {
       item: "New tables (site_settings, newsletter_subscribers) have RLS from creation",
@@ -82,7 +85,8 @@ export function getSecurityChecklist() {
     {
       item: "No secrets committed to the repo",
       status: "done",
-      detail: ".gitignore excludes .env* — confirmed in the repo. Just don't override that per-file.",
+      detail:
+        ".gitignore excludes .env* — confirmed in the repo. Just don't override that per-file.",
     },
   ];
 }

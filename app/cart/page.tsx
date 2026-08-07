@@ -8,15 +8,10 @@ import { urlFor } from "@/sanity/lib/image";
 import { formatCurrency, formatVariantLabel } from "@/lib/format";
 
 export default function CartPage() {
-  const {
-    cart,
-    removeFromCart,
-    updateQuantity,
-  } = useCart();
+  const { cart, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cart.reduce(
-    (sum: number, item: any) =>
-      sum + item.price * item.quantity,
+    (sum: number, item: any) => sum + item.price * item.quantity,
     0
   );
 
@@ -31,7 +26,8 @@ export default function CartPage() {
             Your Bag Is Empty
           </h1>
           <p className="mt-8 max-w-xl text-lg leading-8 text-[var(--muted)]">
-            Discover our carefully curated collection of authentic global products.
+            Discover our carefully curated collection of authentic global
+            products.
           </p>
           <Link
             href="/products"
@@ -91,18 +87,14 @@ export default function CartPage() {
 
                   <div className="mt-6 flex items-center gap-4">
                     <button
-                      onClick={() =>
-                        updateQuantity(index, item.quantity - 1)
-                      }
+                      onClick={() => updateQuantity(index, item.quantity - 1)}
                       className="flex h-10 w-10 items-center justify-center border border-[var(--stone)]"
                     >
                       −
                     </button>
                     <span className="w-8 text-center">{item.quantity}</span>
                     <button
-                      onClick={() =>
-                        updateQuantity(index, item.quantity + 1)
-                      }
+                      onClick={() => updateQuantity(index, item.quantity + 1)}
                       className="flex h-10 w-10 items-center justify-center border border-[var(--stone)]"
                     >
                       +
@@ -136,7 +128,9 @@ export default function CartPage() {
               <div className="border-t border-[var(--stone)] pt-5">
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-medium">Estimated Total</span>
-                  <span className="text-2xl font-semibold">{formatCurrency(subtotal)}</span>
+                  <span className="text-2xl font-semibold">
+                    {formatCurrency(subtotal)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -147,9 +141,8 @@ export default function CartPage() {
               Proceed to Checkout
             </Link>
             <p className="mt-8 text-sm leading-7 text-[var(--muted)]">
-              Shipping charges and any applicable customs fees
-              will be confirmed by the OPARZO Concierge Team
-              before your order is processed.
+              Shipping charges and any applicable customs fees will be confirmed
+              by the OPARZO Concierge Team before your order is processed.
             </p>
           </aside>
         </div>

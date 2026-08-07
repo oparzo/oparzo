@@ -16,7 +16,12 @@ export interface Coupon {
 export async function verifyCoupon(
   code: string,
   subtotal: number
-): Promise<{ valid: boolean; discount: number; coupon?: Coupon; message?: string }> {
+): Promise<{
+  valid: boolean;
+  discount: number;
+  coupon?: Coupon;
+  message?: string;
+}> {
   if (!code) {
     return { valid: false, discount: 0, message: "No coupon code provided" };
   }
@@ -39,7 +44,11 @@ export async function verifyCoupon(
 
   // Check usage limit
   if (coupon.usage_limit && (coupon.used_count || 0) >= coupon.usage_limit) {
-    return { valid: false, discount: 0, message: "Coupon usage limit exceeded" };
+    return {
+      valid: false,
+      discount: 0,
+      message: "Coupon usage limit exceeded",
+    };
   }
 
   // Check minimum order

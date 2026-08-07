@@ -21,9 +21,7 @@ export default function AdminCouponsPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Coupons
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Coupons</h1>
 
       <div className="space-y-4">
         {coupons.map((coupon) => (
@@ -37,9 +35,7 @@ export default function AdminCouponsPage() {
               <p>Status: {coupon.active ? "Active" : "Inactive"}</p>
             </div>
 
-            <div>
-              Expires: {coupon.expires_at || "Never"}
-            </div>
+            <div>Expires: {coupon.expires_at || "Never"}</div>
           </div>
         ))}
       </div>

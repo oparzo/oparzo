@@ -9,10 +9,12 @@ export async function GET() {
 
     const { data, error } = await supabase
       .from("orders")
-      .select(`
+      .select(
+        `
         *,
         order_items (*)
-      `)
+      `
+      )
       .eq("profile_id", user.id)
       .order("created_at", { ascending: false });
 

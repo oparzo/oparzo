@@ -5,16 +5,10 @@ type PriceProps = {
   comparePrice?: number | null;
 };
 
-export default function Price({
-  price,
-  comparePrice,
-}: PriceProps) {
-  const hasDiscount =
-    comparePrice != null && comparePrice > price;
+export default function Price({ price, comparePrice }: PriceProps) {
+  const hasDiscount = comparePrice != null && comparePrice > price;
 
-  const saveAmount = hasDiscount
-    ? comparePrice - price
-    : 0;
+  const saveAmount = hasDiscount ? comparePrice - price : 0;
 
   const savePercent = hasDiscount
     ? Math.round((saveAmount / comparePrice) * 100)

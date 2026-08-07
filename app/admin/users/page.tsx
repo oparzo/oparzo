@@ -33,9 +33,7 @@ export default function AdminUsersPage() {
       const data = await res.json();
 
       if (data.success) {
-        setUsers((prev) =>
-          prev.map((u) => (u.id === id ? { ...u, role } : u))
-        );
+        setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, role } : u)));
       } else {
         alert(data.error ?? "Couldn't update role.");
       }
@@ -46,9 +44,7 @@ export default function AdminUsersPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-10">
-        Users
-      </h1>
+      <h1 className="text-5xl font-serif mb-10">Users</h1>
 
       <div className="space-y-4">
         {users.map((user) => (
@@ -57,9 +53,7 @@ export default function AdminUsersPage() {
             className="border rounded-lg p-5 flex justify-between items-center"
           >
             <div>
-              <h2 className="font-bold">
-                {user.full_name || "Unknown User"}
-              </h2>
+              <h2 className="font-bold">{user.full_name || "Unknown User"}</h2>
 
               <p>{user.email}</p>
 

@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { HttpError } from "@/lib/order/guard";
 
 interface ResolvePriceInput {
   slug: string;
@@ -35,7 +36,7 @@ export async function resolveUnitPrice({
   );
 
   if (!product) {
-    throw new Error(`Product not found: ${slug}`);
+    throw new HttpError(404, `Product not found: ${slug}`);
   }
 
   let unit_price = 0;
@@ -54,24 +55,28 @@ export async function resolveUnitPrice({
       unit_price = matchedVariant.price || 0;
       variant_label = variant;
     } else {
-      // variant না পাওয়া গেলে প্রথম variant-এর দাম নিন
-      const first = product.variants?.[0];
-      unit_price = first?.price || 0;
-      variant_label = first
-        ? [first.volume, first.weight, first.size, first.color, first.shade]
-            .filter(Boolean)
-            .join(" - ")
-        : null;
+      // ❌ variant না পাওয়া গেলে fallback না করে এরর থ্রো করুন
+      throw new HttpError(
+        400,
+        `Variant "${variant}" not found for product "${product.name}"`
+      );
     }
   } else {
-    // কোনো variant না থাকলে প্রথম variant-এর দাম
+    // ✅ কোনো variant না থাকলে প্রথম variant-এর দাম
     const first = product.variants?.[0];
-    unit_price = first?.price || 0;
-    variant_label = first
-      ? [first.volume, first.weight, first.size, first.color, first.shade]
-          .filter(Boolean)
-          .join(" - ")
-      : null;
+    if (!first) {
+      throw new HttpError(400, `Product "${product.name}" has no variants`);
+    }
+    unit_price = first.price || 0;
+    variant_label = [
+      first.volume,
+      first.weight,
+      first.size,
+      first.color,
+      first.shade,
+    ]
+      .filter(Boolean)
+      .join(" - ");
   }
 
   return {

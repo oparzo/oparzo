@@ -1,18 +1,18 @@
-import { revalidatePath, revalidateTag } from 'next/cache';
-import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath, revalidateTag } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const secret = req.headers.get('x-sanity-webhook-secret');
+  const secret = req.headers.get("x-sanity-webhook-secret");
 
   if (secret !== process.env.SANITY_WEBHOOK_SECRET) {
-    return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+    return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
-  revalidatePath('/');
-  revalidatePath('/products/[slug]', 'page');
+  revalidatePath("/");
+  revalidatePath("/products/[slug]", "page");
   // ✅ Provide empty options object for Next.js 16 compatibility
-  revalidateTag('sanity-data', {});
+  revalidateTag("sanity-data", {});
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }

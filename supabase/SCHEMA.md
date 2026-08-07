@@ -28,10 +28,12 @@ correct — something I can't produce from here.
 ## Tables (inferred)
 
 ### `profiles`
+
 Referenced columns: `id` (= `auth.users.id`), `full_name`, `email`, `phone`,
 `role` (`'admin' | 'customer'`), `created_at`.
 
 ### `addresses`
+
 Referenced columns: `id`, `profile_id`, `receiver_name` / `full_name`,
 `first_name`, `last_name`, `phone`, `district`, `area`, `address`,
 `landmark`, `label` (default `'Home'`), `is_primary`, `is_default`,
@@ -40,6 +42,7 @@ Referenced columns: `id`, `profile_id`, `receiver_name` / `full_name`,
 were added in migration `006_addresses_upgrade.sql`.)
 
 ### `orders`
+
 Referenced columns: `id`, `order_number`, `profile_id`, `address_id`,
 `status`, `payment_status`, `payment_method`, `subtotal`, `discount`,
 `shipping_fee`, `total`, `coupon_id`, `coupon_code`, `notes`, `created_at`,
@@ -48,11 +51,13 @@ plus `shipping_name` / `shipping_phone` / `shipping_email` /
 this session).
 
 ### `order_items`
+
 Referenced columns: `id`, `order_id`, `product_slug`, `product_name`,
 `variant` (added in `004_add_variant_to_order_items.sql`), `quantity`,
 `unit_price`, `total_price`.
 
 ### `coupons`
+
 Referenced columns: `id`, `code`, `active`, `discount_type`
 (`'percentage' | 'fixed'`), `discount_value`, `maximum_discount`,
 `expires_at`, `usage_limit`, `used_count`.
@@ -62,11 +67,13 @@ applied against your live policies, since the checked-in `coupons.sql` still
 showed the old permissive policy before that migration.
 
 ### `wishlist`
+
 Referenced columns: `id`, `profile_id`, `product_id` (a Sanity `_id`, not a
 foreign key into a local products table — there is no local products
 table), `created_at`.
 
 ### `cart_items`
+
 Referenced columns: `id`, `profile_id`, `product_id`, `quantity`,
 `created_at`.
 **Known gap** (see audit + Milestone 2 notes): no columns for variant,
@@ -77,6 +84,7 @@ decision, see `components/cart/CartProvider.tsx`.
 ---
 
 ## RLS policies confirmed in the repo
+
 Only `coupons` has its policy checked into `supabase/coupons.sql` /
 migration `008`. `profiles`, `addresses`, `orders`, `order_items`,
 `wishlist`, and `cart_items` have RLS enabled per your Supabase dashboard

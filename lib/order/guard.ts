@@ -11,7 +11,10 @@ const limiter = new Ratelimit({
 });
 
 export class HttpError extends Error {
-  constructor(public status: number, msg: string) {
+  constructor(
+    public status: number,
+    msg: string
+  ) {
     super(msg);
   }
 }
@@ -33,12 +36,18 @@ export async function requireAuthedCustomer(): Promise<{
   );
 
   // ✅ getUser() — verifies JWT server-side. Never use getSession().
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   if (error || !user) throw new HttpError(401, "Authentication required");
 
   const { success } = await limiter.limit(user.id);
   if (!success) {
-    throw new HttpError(429, "Too many requests. Please try again in a moment.");
+    throw new HttpError(
+      429,
+      "Too many requests. Please try again in a moment."
+    );
   }
 
   return { user, supabase };

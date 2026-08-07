@@ -45,9 +45,7 @@ export default function AdminProductsPage() {
   return (
     <main className="max-w-7xl mx-auto p-10">
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-5xl font-serif">
-          Products
-        </h1>
+        <h1 className="text-5xl font-serif">Products</h1>
 
         <Link
           href="/studio"
@@ -60,9 +58,7 @@ export default function AdminProductsPage() {
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : error ? (
-        <p className="text-gray-500">
-          Couldn't load products. Try refreshing.
-        </p>
+        <p className="text-gray-500">Couldn't load products. Try refreshing.</p>
       ) : products.length === 0 ? (
         <p className="text-gray-500">
           No products yet. Add your first one in the Studio.
@@ -83,9 +79,7 @@ export default function AdminProductsPage() {
                 className="rounded-xl border p-6 flex justify-between items-center"
               >
                 <div>
-                  <h2 className="text-xl font-semibold">
-                    {product.name}
-                  </h2>
+                  <h2 className="text-xl font-semibold">{product.name}</h2>
 
                   <p className="text-gray-500">
                     {product.brand ?? "-"} • {product.category ?? "-"}
@@ -102,9 +96,7 @@ export default function AdminProductsPage() {
                   </p>
 
                   <p className="text-sm text-gray-500 mt-1">
-                    {totalStock > 0
-                      ? `${totalStock} in stock`
-                      : "Out of stock"}
+                    {totalStock > 0 ? `${totalStock} in stock` : "Out of stock"}
                   </p>
                 </div>
 

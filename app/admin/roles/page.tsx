@@ -37,7 +37,8 @@ export default function AdminRolesPage() {
   const roles = [
     {
       role: "Admin",
-      permissions: "Full access to /admin — orders, products, customers, coupons, etc.",
+      permissions:
+        "Full access to /admin — orders, products, customers, coupons, etc.",
       count: counts.admin,
     },
     {
@@ -49,9 +50,7 @@ export default function AdminRolesPage() {
 
   return (
     <main className="max-w-7xl mx-auto p-10">
-      <h1 className="text-5xl font-serif mb-4">
-        Roles & Permissions
-      </h1>
+      <h1 className="text-5xl font-serif mb-4">Roles & Permissions</h1>
 
       <p className="mb-10 text-gray-500">
         {loading ? "Loading..." : "Live counts from your profiles table."}
@@ -68,15 +67,10 @@ export default function AdminRolesPage() {
                 {item.role} · {item.count}
               </h2>
 
-              <p className="text-gray-500">
-                {item.permissions}
-              </p>
+              <p className="text-gray-500">{item.permissions}</p>
             </div>
 
-            <Link
-              href="/admin/users"
-              className="border rounded px-4 py-2"
-            >
+            <Link href="/admin/users" className="border rounded px-4 py-2">
               Manage in Users
             </Link>
           </div>

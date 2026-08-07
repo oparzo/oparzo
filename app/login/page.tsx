@@ -38,14 +38,11 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl border p-8 shadow-sm">
-        <h1 className="text-3xl font-bold mb-2">
-          Sign in to Oparzo
-        </h1>
+        <h1 className="text-3xl font-bold mb-2">Sign in to Oparzo</h1>
 
         {sent ? (
           <p className="text-gray-600" role="status">
-            Check your email and click the Oparzo sign-in link to
-            continue.
+            Check your email and click the Oparzo sign-in link to continue.
           </p>
         ) : (
           <>

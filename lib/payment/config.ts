@@ -27,14 +27,10 @@ export function getPaymentProvidersStatus(): PaymentProviderInfo[] {
       id: "sslcommerz",
       name: "SSLCommerz",
       status:
-        process.env.SSLCOMMERZ_STORE_ID &&
-        process.env.SSLCOMMERZ_STORE_PASSWORD
+        process.env.SSLCOMMERZ_STORE_ID && process.env.SSLCOMMERZ_STORE_PASSWORD
           ? "active"
           : "not_configured",
-      requiredEnvVars: [
-        "SSLCOMMERZ_STORE_ID",
-        "SSLCOMMERZ_STORE_PASSWORD",
-      ],
+      requiredEnvVars: ["SSLCOMMERZ_STORE_ID", "SSLCOMMERZ_STORE_PASSWORD"],
     },
     {
       id: "bkash",

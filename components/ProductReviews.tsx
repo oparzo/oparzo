@@ -87,21 +87,32 @@ export default function ProductReviews({ productSlug }: ProductReviewsProps) {
       const data = await res.json();
 
       if (data.success) {
-        setMessage({ type: "success", text: "Thank you! Your review is pending approval." });
+        setMessage({
+          type: "success",
+          text: "Thank you! Your review is pending approval.",
+        });
         setComment("");
         setRating(5);
       } else {
-        setMessage({ type: "error", text: data.message || "Failed to submit review" });
+        setMessage({
+          type: "error",
+          text: data.message || "Failed to submit review",
+        });
       }
     } catch (err) {
-      setMessage({ type: "error", text: "Something went wrong. Please try again." });
+      setMessage({
+        type: "error",
+        text: "Something went wrong. Please try again.",
+      });
     } finally {
       setSubmitting(false);
     }
   };
 
   if (loading) {
-    return <div className="py-8 text-center text-gray-500">Loading reviews...</div>;
+    return (
+      <div className="py-8 text-center text-gray-500">Loading reviews...</div>
+    );
   }
 
   const renderStars = (rating: number) => {
@@ -113,14 +124,21 @@ export default function ProductReviews({ productSlug }: ProductReviewsProps) {
       <h2 className="font-serif text-3xl">Happy Customers, Honest Reviews</h2>
 
       {reviews.length === 0 ? (
-        <p className="mt-6 text-gray-500">No reviews yet. Be the first to review this product!</p>
+        <p className="mt-6 text-gray-500">
+          No reviews yet. Be the first to review this product!
+        </p>
       ) : (
         <div className="mt-8 space-y-6">
           {reviews.map((review) => (
-            <div key={review.id} className="border-b border-[var(--stone)] pb-6">
+            <div
+              key={review.id}
+              className="border-b border-[var(--stone)] pb-6"
+            >
               <div className="flex items-center gap-4">
                 <span className="font-medium">{review.user_name}</span>
-                <span className="text-sm text-yellow-500">{renderStars(review.rating)}</span>
+                <span className="text-sm text-yellow-500">
+                  {renderStars(review.rating)}
+                </span>
                 <span className="text-xs text-gray-400">
                   {new Date(review.created_at).toLocaleDateString()}
                 </span>
@@ -177,7 +195,9 @@ export default function ProductReviews({ productSlug }: ProductReviewsProps) {
         {message && (
           <div
             className={`rounded-lg p-3 text-sm ${
-              message.type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
+              message.type === "success"
+                ? "bg-green-50 text-green-700"
+                : "bg-red-50 text-red-700"
             }`}
           >
             {message.text}

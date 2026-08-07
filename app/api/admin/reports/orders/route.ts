@@ -59,8 +59,8 @@ export async function GET(request: NextRequest) {
       error?.message === "Forbidden"
         ? 403
         : error?.message === "Unauthorized"
-        ? 401
-        : 500;
+          ? 401
+          : 500;
 
     return NextResponse.json(
       { success: false, error: error?.message ?? "Failed" },

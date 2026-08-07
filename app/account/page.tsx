@@ -29,9 +29,10 @@ export default function AccountPage() {
     district: "",
     postal_code: "",
   });
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(
-    null
-  );
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -92,12 +93,25 @@ export default function AccountPage() {
     const data = await res.json();
 
     if (data.success) {
-      setMessage({ type: "success", text: editingAddress ? "Address updated!" : "Address saved!" });
+      setMessage({
+        type: "success",
+        text: editingAddress ? "Address updated!" : "Address saved!",
+      });
       setEditingAddress(null);
-      setForm({ receiver_name: "", phone: "", address: "", area: "", district: "", postal_code: "" });
+      setForm({
+        receiver_name: "",
+        phone: "",
+        address: "",
+        area: "",
+        district: "",
+        postal_code: "",
+      });
       await fetchAddresses();
     } else {
-      setMessage({ type: "error", text: data.message || "Something went wrong" });
+      setMessage({
+        type: "error",
+        text: data.message || "Something went wrong",
+      });
     }
   }
 
@@ -132,7 +146,9 @@ export default function AccountPage() {
         {message && (
           <div
             className={`mb-6 p-4 rounded-lg ${
-              message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+              message.type === "success"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
             }`}
           >
             {message.text}
@@ -223,7 +239,9 @@ export default function AccountPage() {
                     placeholder="Receiver Name *"
                     required
                     value={form.receiver_name}
-                    onChange={(e) => setForm({ ...form, receiver_name: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, receiver_name: e.target.value })
+                    }
                     className="w-full border border-[var(--stone)] rounded-lg p-3"
                   />
                   <input
@@ -231,7 +249,9 @@ export default function AccountPage() {
                     placeholder="Phone Number *"
                     required
                     value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, phone: e.target.value })
+                    }
                     className="w-full border border-[var(--stone)] rounded-lg p-3"
                   />
                 </div>
@@ -240,7 +260,9 @@ export default function AccountPage() {
                   required
                   rows={2}
                   value={form.address}
-                  onChange={(e) => setForm({ ...form, address: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, address: e.target.value })
+                  }
                   className="w-full border border-[var(--stone)] rounded-lg p-3"
                 />
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -255,14 +277,18 @@ export default function AccountPage() {
                     type="text"
                     placeholder="District (optional)"
                     value={form.district}
-                    onChange={(e) => setForm({ ...form, district: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, district: e.target.value })
+                    }
                     className="w-full border border-[var(--stone)] rounded-lg p-3"
                   />
                   <input
                     type="text"
                     placeholder="Postal Code (optional)"
                     value={form.postal_code}
-                    onChange={(e) => setForm({ ...form, postal_code: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, postal_code: e.target.value })
+                    }
                     className="w-full border border-[var(--stone)] rounded-lg p-3"
                   />
                 </div>

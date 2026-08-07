@@ -10,9 +10,7 @@
  * Formats a price in Bangladeshi Taka with thousands separators.
  * formatCurrency(12500) -> "৳ 12,500"
  */
-export function formatCurrency(
-  amount: number | null | undefined
-): string {
+export function formatCurrency(amount: number | null | undefined): string {
   const value = Number(amount ?? 0);
   return `৳ ${value.toLocaleString("en-US")}`;
 }
